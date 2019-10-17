@@ -55,6 +55,21 @@
 
     <build>
         <plugins>
+            <plugin>
+                <!-- Build an executable JAR -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>de.techfak.gse.ymokrane.GSERadio</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
             <!--Compiler-->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
