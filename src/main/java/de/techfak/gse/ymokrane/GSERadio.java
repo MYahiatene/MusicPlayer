@@ -6,6 +6,7 @@ public final class GSERadio {
     }
 
     public static void main(final String... args) {
+        einlesen.readDir(args[1]);
         System.out.println("Hello ymokrane!");
     }
 
