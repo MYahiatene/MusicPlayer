@@ -22,8 +22,8 @@ public class ReadPath {
             }
         }
         if (mp3List.isEmpty()) {
-            System.out.println("Pfad ungültig oder keine mp3s gefunden");
-            System.exit(101);
+            System.out.println("keine mp3s gefunden");
+            System.exit(100);
         }
 
         for (File files : mp3List) {
