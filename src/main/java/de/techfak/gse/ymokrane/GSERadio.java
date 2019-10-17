@@ -18,10 +18,13 @@ public final class GSERadio {
             ReadPath.readDir(files.getAbsolutePath());
         } else {
             File files = new File(args[0]);
-            ReadPath.readDir(args[0]);
-
+            if (files.exists()) {
+                ReadPath.readDir(args[0]);
+            } else {
+                System.out.println("Ungültiger Pfad");
+                System.exit(100);
+            }
         }
-
 
 
         //PlayMusic.play("test");
