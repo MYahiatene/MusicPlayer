@@ -1,6 +1,9 @@
 package de.techfak.gse.ymokrane;
 
 
+import java.io.File;
+
+
 public final class GSERadio {
 
 
@@ -9,15 +12,20 @@ public final class GSERadio {
     }
 
     public static void main(final String... args) {
-        try {
-            ReadPath.readDir(args[0]);
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("No file");
 
+        if (args.length == 0) {
+            File files = new File("");
+            ReadPath.readDir(files.getAbsolutePath());
+        } else {
+            File files = new File(args[0]);
+            ReadPath.readDir(args[0]);
 
         }
 
-        PlayMusic.play("test");
+
+
+        //PlayMusic.play("test");
+
 
     }
 }
