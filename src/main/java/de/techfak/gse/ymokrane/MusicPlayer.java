@@ -5,19 +5,19 @@ import uk.co.caprica.vlcj.player.base.MediaPlayer;
 
 public class MusicPlayer {
 
-    private String pfad;
+   // private String pfad;
 
     private MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
 
     private MediaPlayer mediaPlayer = mediaPlayerFactory.mediaPlayers().newMediaPlayer();
 
-    public MusicPlayer(String pfad) {
+    /*public MusicPlayer() {
 
-        this.pfad = pfad;
+        //this.pfad = pfad;
 
-    }
+    }*/
 
-    public void playSong(String mp3) {
+    public void playSong(final String mp3) {
 
         mediaPlayer.submit(new Runnable() {
             @Override
