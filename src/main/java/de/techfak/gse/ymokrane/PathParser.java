@@ -7,41 +7,41 @@ import java.util.*;
 
 public class PathParser {
 
+    static final int ERRORCODE_100 = 100;
     private String pfad;
 
     private List<File> mp3List = new ArrayList<>();
 
-    public PathParser(String[] pfad) {
-        if (pfad.length==0){
+    public PathParser(final String... pfad) {
+        if (pfad.length == 0) {
 
-            this.pfad = "";}
-        else
+            this.pfad = "";
+        } else {
 
-        this.pfad=pfad[0];
+            this.pfad = pfad[0];
+        }
     }
 
     public String getPfad() {
 
 
-            return pfad;
-
-
+        return pfad;
 
 
     }
 
     public List<File> getPlaylist() {
 
-        File files = new File(pfad);
+        final File files = new File(pfad);
 
         if (!files.isDirectory()) {
             System.out.println("ungültiger Pfad");
 
-            System.exit(100);
+            System.exit(ERRORCODE_100);
         }
 
 
-        for (File file : files.listFiles()) {
+        for (final File file : files.listFiles()) {
 
             if (!file.getAbsoluteFile().isDirectory() && file.getAbsoluteFile().toString().endsWith(".mp3")) {
 
@@ -53,10 +53,9 @@ public class PathParser {
 
                 System.out.println("keine mp3s gefunden");
 
-                System.exit(100);
+                System.exit(ERRORCODE_100);
 
             }
-
 
 
         }
