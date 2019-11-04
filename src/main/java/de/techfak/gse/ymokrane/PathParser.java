@@ -3,15 +3,21 @@ package de.techfak.gse.ymokrane;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.*;
+import java.util.List;
 
 public class PathParser {
 
-    static final int ERRORCODE_100 = 100;
+    /* default */ static final int ERRORCODE_100 = 100;
+
     private String pfad;
+
+    private List<Song> songObjektListe = new ArrayList<>();
 
     private List<File> mp3List = new ArrayList<>();
 
+    /**
+     * @param pfad Pfad des einzulesenden Ordners
+     */
     public PathParser(final String... pfad) {
         if (pfad.length == 0) {
 
@@ -30,14 +36,15 @@ public class PathParser {
 
     }
 
-    public List<File> getPlaylist() {
+    /**
+     * @return return der playlist geshuffled
+     */
+    public List<File> getPlaylist() throws InvalidPathException, NoMp3FilesException {
 
         final File files = new File(pfad);
 
         if (!files.isDirectory()) {
-            System.out.println("ungültiger Pfad");
-
-            System.exit(ERRORCODE_100);
+            throw new InvalidPathException("Ungueltiger Pfad " + pfad);
         }
 
 
@@ -51,16 +58,32 @@ public class PathParser {
 
             if (mp3List.isEmpty()) {
 
-                System.out.println("keine mp3s gefunden");
-
-                System.exit(ERRORCODE_100);
+                throw new NoMp3FilesException("Keine validen Mp3s im Pfad: " + pfad);
 
             }
 
 
         }
+
+
         Collections.shuffle(mp3List);
         return mp3List;
+    }
+
+    /**
+     * @param playlist Liste vom Typ File
+     * @return songObjektListe returned Liste mit Objekten vom Typ Song
+     */
+    public List<Song> getObjectList(final List<File> playlist) {
+
+        for (final File file : playlist) {
+
+            final Song song = new Song(file.toString());
+            songObjektListe.add(song);
+
+        }
+        return songObjektListe;
+
     }
 
 
