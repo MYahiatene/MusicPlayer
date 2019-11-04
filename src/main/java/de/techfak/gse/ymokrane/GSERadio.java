@@ -15,13 +15,14 @@ public final class GSERadio {
         final PathParser parser = new PathParser(args);
         final String pfad = parser.getPfad();
 
-        //Einlesen der mp3s aus dem Ornder und speichern in einer Playlist //
+        //Einlesen der mp3s aus dem Ornder und speichern in einer Playlist(geshuffled) //
 
         final List<File> playlist = parser.getPlaylist();
 
         //erstellt Music Player //
         final MusicPlayer player = new MusicPlayer();
         //player.play();
+
 
         System.out.println("Hello ymokrane!");
     }
