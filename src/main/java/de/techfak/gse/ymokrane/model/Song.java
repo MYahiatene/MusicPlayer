@@ -1,4 +1,4 @@
-package de.techfak.gse.ymokrane;
+package de.techfak.gse.ymokrane.model;
 
 import uk.co.caprica.vlcj.factory.MediaPlayerFactory;
 import uk.co.caprica.vlcj.media.InfoApi;

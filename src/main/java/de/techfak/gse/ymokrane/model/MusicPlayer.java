@@ -1,4 +1,4 @@
-package de.techfak.gse.ymokrane;
+package de.techfak.gse.ymokrane.model;
 
 import java.io.File;
 import java.util.List;
@@ -8,7 +8,8 @@ import uk.co.caprica.vlcj.player.base.MediaPlayer;
 import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter;
 
 
-class MusicPlayer {
+public class MusicPlayer {
+
 
     private int playlistIndex = 0;
 
@@ -19,9 +20,9 @@ class MusicPlayer {
     private PathParser parser = new PathParser();
 
 
-    private MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
+    public MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
 
-    private MediaPlayer mediaPlayer = mediaPlayerFactory.mediaPlayers().newMediaPlayer();
+    public MediaPlayer mediaPlayer = mediaPlayerFactory.mediaPlayers().newMediaPlayer();
 
 
     /**
@@ -33,7 +34,7 @@ class MusicPlayer {
 
     }
 
-    /*default*/ int getPlaylistIndex() {
+    public int getPlaylistIndex() {
         return playlistIndex;
     }
 
@@ -48,8 +49,6 @@ class MusicPlayer {
             @Override
             public void run() {
 
-                final String index = playlist.get(getPlaylistIndex()).toString();
-                id3managaer.showMeta(parser.getObjectList(playlist), index);
                 mediaPlayer.media().play(playlist.get(playlistIndex).toString());
             }
         });
@@ -68,8 +67,7 @@ class MusicPlayer {
                 mediaPlayer.submit(new Runnable() {
                     @Override
                     public void run() {
-                        final String index = playlist.get(getPlaylistIndex()).toString();
-                        id3managaer.showMeta(parser.getObjectList(playlist), index);
+
                         mediaPlayer.media().play(playlist.get(playlistIndex).toString());
                     }
                 });
@@ -79,4 +77,5 @@ class MusicPlayer {
 
 
     }
+
 }

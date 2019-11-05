@@ -1,4 +1,4 @@
-package de.techfak.gse.ymokrane;
+package de.techfak.gse.ymokrane.exceptions;
 
 
 public class InvalidPathException extends Exception {
