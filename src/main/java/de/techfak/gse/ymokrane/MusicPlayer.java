@@ -14,6 +14,11 @@ class MusicPlayer {
 
     private List<File> playlist;
 
+    private ID3Manager id3managaer = new ID3Manager();
+
+    private PathParser parser = new PathParser();
+
+
     private MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
 
     private MediaPlayer mediaPlayer = mediaPlayerFactory.mediaPlayers().newMediaPlayer();
@@ -42,6 +47,9 @@ class MusicPlayer {
         mediaPlayer.submit(new Runnable() {
             @Override
             public void run() {
+
+                final String index = playlist.get(getPlaylistIndex()).toString();
+                id3managaer.showMeta(parser.getObjectList(playlist), index);
                 mediaPlayer.media().play(playlist.get(playlistIndex).toString());
             }
         });
@@ -60,6 +68,8 @@ class MusicPlayer {
                 mediaPlayer.submit(new Runnable() {
                     @Override
                     public void run() {
+                        final String index = playlist.get(getPlaylistIndex()).toString();
+                        id3managaer.showMeta(parser.getObjectList(playlist), index);
                         mediaPlayer.media().play(playlist.get(playlistIndex).toString());
                     }
                 });
