@@ -7,7 +7,6 @@ import java.util.List;
 
 public class PathParser {
 
-    /* default */ static final int ERRORCODE_100 = 100;
 
     private String pfad;
 
@@ -21,7 +20,7 @@ public class PathParser {
     public PathParser(final String... pfad) {
         if (pfad.length == 0) {
 
-            this.pfad = "";
+            this.pfad = System.getProperty("user.dir") + "/src/main/java/de/techfak/gse/ymokrane/resources";
         } else {
 
             this.pfad = pfad[0];
