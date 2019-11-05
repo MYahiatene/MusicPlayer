@@ -16,6 +16,7 @@ public final class GSERadio {
      * @param args Kommandozeilenargumente
      */
     public static void main(final String... args) {
+        final int errorcode100 = 100;
         try {
             //Erzeugen meines parsers //
             final PathParser parser = new PathParser(args);
@@ -35,14 +36,12 @@ public final class GSERadio {
             id3managaer.showMeta(parser.getObjectList(playlist), playlist.get(player.getPlaylistIndex()).toString());
             player.playSongs();
             System.out.println("Hello ymokrane!");
-        } catch (InvalidPathException  exceptionPath) {
+        } catch (InvalidPathException exceptionPath) {
             exceptionPath.printStackTrace();
-            System.exit(100);
-        }
-
-        catch ( NoMp3FilesException exceptionMp3) {
+            System.exit(errorcode100);
+        } catch (NoMp3FilesException exceptionMp3) {
             exceptionMp3.printStackTrace();
-            System.exit(100);
+            System.exit(errorcode100);
         }
     }
 

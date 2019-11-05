@@ -15,6 +15,7 @@ public class ID3Manager {
         for (final Song song : list) {
 
             if (song.getPath().equals(currentSongPath)) {
+                System.out.println(song.getArtist());
                 System.out.println(song.getTitle());
                 break;
             }
