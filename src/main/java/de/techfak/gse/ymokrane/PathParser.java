@@ -20,7 +20,7 @@ public class PathParser {
     public PathParser(final String... pfad) {
         if (pfad.length == 0) {
 
-            this.pfad = System.getProperty("user.dir") + "/src/main/java/de/techfak/gse/ymokrane/resources";
+            this.pfad = System.getProperty("user.dir") + "/src/main/resources";
         } else {
 
             this.pfad = pfad[0];
@@ -43,7 +43,7 @@ public class PathParser {
         final File files = new File(pfad);
 
         if (!files.isDirectory()) {
-            throw new InvalidPathException("Ungueltiger Pfad " + pfad);
+            throw new InvalidPathException("Ungueltiger Pfad: " + pfad);
         }
 
 

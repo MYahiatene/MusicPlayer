@@ -35,7 +35,13 @@ public final class GSERadio {
             id3managaer.showMeta(parser.getObjectList(playlist), playlist.get(player.getPlaylistIndex()).toString());
             player.playSongs();
             System.out.println("Hello ymokrane!");
-        } catch (InvalidPathException | NoMp3FilesException e) {
+        } catch (InvalidPathException  exceptionPath) {
+            exceptionPath.printStackTrace();
+            System.exit(100);
+        }
+
+        catch ( NoMp3FilesException exceptionMp3) {
+            exceptionMp3.printStackTrace();
             System.exit(100);
         }
     }
