@@ -14,11 +14,10 @@ public class ConsoleReader {
 
     public static final String PLAYLIST = "playlist";
 
-    List<File> playlist = new ArrayList<>();
+    List<File> playlist;
 
     PathParser parser = new PathParser();
 
-    List<Song> objectList;
 
     int index;
 
@@ -27,30 +26,34 @@ public class ConsoleReader {
     private ID3Manager id3Manager = new ID3Manager();
 
     public ConsoleReader(final List<File> playlist) {
-
+        List<Song> objectList = new ArrayList<>();
         this.playlist = playlist;
-        this.objectList = parser.getObjectList(playlist);
+        objectList = parser.getObjectList(playlist);
 
     }
 
 
-    public boolean read(int index) {
+    public boolean read(List<File> currentPlaylist) {
         final Scanner consoleReader = new Scanner(System.in).useDelimiter("\n");
         final String input = consoleReader.next();
-        currentPath = playlist.get(index).toString();
+
+        List<Song> objectList = parser.getObjectList(playlist);
+
         //case anweisung hier
 
         switch (input) {
-
+            //song mit 2 songs funktioniert noch nicht richtig
             case SONG:
-                id3Manager.showMeta(parser.getObjectList(playlist), currentPath);
+                id3Manager.showMeta(objectList.get(0));
                 break;
-
+            //playlist funktioniert noch nicht richtig
             case PLAYLIST: // Playlist umändern, gespieltes Lied ans ende //
+
+
                 for (Song song : objectList) {
-                    //showmeta funktion
-                    break;
+                    id3Manager.showMeta(song);
                 }
+                break;
             case EXIT:
                 return false;
 

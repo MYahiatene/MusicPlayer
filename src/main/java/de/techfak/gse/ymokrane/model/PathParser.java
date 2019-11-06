@@ -77,14 +77,14 @@ public class PathParser {
      * @return songObjektListe returned Liste mit Objekten vom Typ Song
      */
     public List<Song> getObjectList(final List<File> playlist) {
-
+        List<Song> songObjectList = new ArrayList<>();
         for (final File file : playlist) {
 
             final Song song = new Song(file.toString());
-            songObjektListe.add(song);
+            songObjectList.add(song);
 
         }
-        return songObjektListe;
+        return songObjectList;
 
     }
 

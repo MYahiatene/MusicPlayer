@@ -10,7 +10,6 @@ import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter;
 
 public class MusicPlayer {
 
-
     private int playlistIndex = 0;
 
     private List<File> playlist;
@@ -49,7 +48,7 @@ public class MusicPlayer {
             @Override
             public void run() {
 
-                mediaPlayer.media().play(playlist.get(playlistIndex).toString());
+                mediaPlayer.media().play(playlist.get(0).toString());
             }
         });
 
@@ -64,17 +63,24 @@ public class MusicPlayer {
                 } else {
                     playlistIndex = 0;
                 }
+                playlist.add(playlist.get(0));
+                playlist.remove(0);
                 mediaPlayer.submit(new Runnable() {
                     @Override
                     public void run() {
 
-                        mediaPlayer.media().play(playlist.get(playlistIndex).toString());
+                        mediaPlayer.media().play(playlist.get(0).toString());
                     }
                 });
             }
 
         });
 
+
+    }
+
+    public List<File> getPlaylist() {
+        return playlist;
 
     }
 

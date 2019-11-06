@@ -1,31 +1,22 @@
 package de.techfak.gse.ymokrane.model;
 
 
-import java.util.List;
-
 public class ID3Manager {
 
-    /**
-     * @param list            Liste mit allen SongObjekten
-     * @param currentSongPath Der Path des aktuellen Songs
-     */
-    public void showMeta(final List<Song> list, final String currentSongPath) {
+    public void showMeta(Song song) {
 
 
-        for (final Song song : list) {
+        System.out.println(song.getArtist());
+        System.out.println(song.getTitle());
+        System.out.println(song.getAlbum());
+        System.out.println(song.getGenre());
+        System.out.println(song.getDuration());
+        System.out.println("_________________________________");
 
-            if (song.getPath().equals(currentSongPath)) {
-                System.out.println(song.getArtist());
-                System.out.println(song.getTitle());
-                System.out.println(song.getAlbum());
-                System.out.println(song.getGenre());
-                System.out.println(song.getDuration());
-                break;
-            }
-
-        }
 
     }
 
-
 }
+
+
+

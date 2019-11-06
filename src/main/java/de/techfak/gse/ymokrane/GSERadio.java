@@ -45,8 +45,8 @@ public final class GSERadio {
             player.playSongs();
             //User Input Verarbeitung //
 
-            ConsoleReader consoleReader = new ConsoleReader(playlist);
-            while (consoleReader.read(player.getPlaylistIndex())) {
+            ConsoleReader consoleReader = new ConsoleReader(player.getPlaylist());
+            while (consoleReader.read(player.getPlaylist())) {
             }
         } catch (InvalidPathException exceptionPath) {
             exceptionPath.printStackTrace();
