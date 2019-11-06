@@ -24,7 +24,6 @@ public final class GSERadio {
      * @param args Kommandozeilenargumente
      */
     public static void main(final String... args) {
-        int exitStatus = 0;
         final int errorcode100 = 100;
         MusicPlayer player = null;
         try {
@@ -45,7 +44,7 @@ public final class GSERadio {
             player.playSongs();
             //User Input Verarbeitung //
 
-            ConsoleReader consoleReader = new ConsoleReader(player.getPlaylist());
+            final ConsoleReader consoleReader = new ConsoleReader(player.getPlaylist());
             while (consoleReader.read(player.getPlaylist())) {
             }
         } catch (InvalidPathException exceptionPath) {

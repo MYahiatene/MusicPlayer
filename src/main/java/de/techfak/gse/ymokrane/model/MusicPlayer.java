@@ -10,18 +10,14 @@ import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter;
 
 public class MusicPlayer {
 
+
+    private MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
+
+    public MediaPlayer mediaPlayer = mediaPlayerFactory.mediaPlayers().newMediaPlayer();
+
     private int playlistIndex = 0;
 
     private List<File> playlist;
-
-    private ID3Manager id3managaer = new ID3Manager();
-
-    private PathParser parser = new PathParser();
-
-
-    public MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
-
-    public MediaPlayer mediaPlayer = mediaPlayerFactory.mediaPlayers().newMediaPlayer();
 
 
     /**

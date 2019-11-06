@@ -13,7 +13,6 @@ public class PathParser {
 
     private String pfad;
 
-    private List<Song> songObjektListe = new ArrayList<>();
 
     private List<File> mp3List = new ArrayList<>();
 
@@ -73,11 +72,29 @@ public class PathParser {
     }
 
     /**
+     * Print playlist on console.
+     */
+    public void showPlaylist() {
+
+        final List<Song> songObjektListe = getObjectList(mp3List);
+
+        System.out.println("Playlist:");
+        for (final Song song : songObjektListe) {
+            System.out.println("Interpret: " + song.getArtist());
+            System.out.println("Titel: " + song.getTitle());
+            System.out.println("Album: " + song.getAlbum());
+            System.out.println("Genre: " + song.getGenre());
+            System.out.println("Länge: " + song.getDuration());
+            System.out.println("______________________________");
+        }
+    }
+
+    /**
      * @param playlist Liste vom Typ File
      * @return songObjektListe returned Liste mit Objekten vom Typ Song
      */
     public List<Song> getObjectList(final List<File> playlist) {
-        List<Song> songObjectList = new ArrayList<>();
+        final List<Song> songObjectList = new ArrayList<>();
         for (final File file : playlist) {
 
             final Song song = new Song(file.toString());
@@ -86,20 +103,6 @@ public class PathParser {
         }
         return songObjectList;
 
-    }
-
-    public void showPlaylist() {
-        songObjektListe = getObjectList(mp3List);
-
-        System.out.println("Playlist:");
-        for (Song song : songObjektListe) {
-            System.out.println("Interpret: " + song.getArtist());
-            System.out.println("Titel: " + song.getTitle());
-            System.out.println("Album: " + song.getAlbum());
-            System.out.println("Genre: " + song.getGenre());
-            System.out.println("Länge: " + song.getDuration());
-            System.out.println("______________________________");
-        }
     }
 }
 

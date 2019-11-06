@@ -2,8 +2,11 @@ package de.techfak.gse.ymokrane.model;
 
 
 public class ID3Manager {
+    /**
+     * @param song Object with type Song.
+     */
 
-    public void showMeta(Song song) {
+    public void showMeta(final Song song) {
 
 
         System.out.println(song.getArtist());

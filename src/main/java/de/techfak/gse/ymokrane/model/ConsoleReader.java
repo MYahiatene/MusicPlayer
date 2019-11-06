@@ -1,7 +1,6 @@
 package de.techfak.gse.ymokrane.model;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,30 +13,37 @@ public class ConsoleReader {
 
     public static final String PLAYLIST = "playlist";
 
-    List<File> playlist;
+    /*default*/ List<File> playlist;
 
-    PathParser parser = new PathParser();
+    /*default*/ PathParser parser = new PathParser();
 
 
-    int index;
+    /*default*/ int index;
 
-    String currentPath;
+    /*default*/ String currentPath;
 
     private ID3Manager id3Manager = new ID3Manager();
 
+    /**
+     * @param playlist playlist as paramter from main class.
+     */
     public ConsoleReader(final List<File> playlist) {
-        List<Song> objectList = new ArrayList<>();
+
         this.playlist = playlist;
-        objectList = parser.getObjectList(playlist);
+
 
     }
 
+    /**
+     * @param currentPlaylist current playlist with changed order.
+     * @return
+     */
 
-    public boolean read(List<File> currentPlaylist) {
+    public boolean read(final List<File> currentPlaylist) {
         final Scanner consoleReader = new Scanner(System.in).useDelimiter("\n");
         final String input = consoleReader.next();
 
-        List<Song> objectList = parser.getObjectList(playlist);
+        final List<Song> objectList = parser.getObjectList(playlist);
 
         //case anweisung hier
 
@@ -50,11 +56,12 @@ public class ConsoleReader {
             case PLAYLIST: // Playlist umändern, gespieltes Lied ans ende //
 
 
-                for (Song song : objectList) {
+                for (final Song song : objectList) {
                     id3Manager.showMeta(song);
                 }
                 break;
             case EXIT:
+                consoleReader.close();
                 return false;
 
 
