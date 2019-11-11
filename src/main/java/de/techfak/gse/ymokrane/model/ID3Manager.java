@@ -12,11 +12,13 @@ public class ID3Manager {
             System.out.println("Interpret: " + song.getArtist());
         }
         if (song.getTitle() != null) {
+
+            System.out.println("Titel: " + song.getTitle());
         }
-        System.out.println("Titel: " + song.getTitle());
         if (song.getAlbum() != null) {
+
+            System.out.println("Album: " + song.getAlbum());
         }
-        System.out.println("Album: " + song.getAlbum());
         if (song.getGenre() != null) {
 
             System.out.println("Genre: " + song.getGenre());

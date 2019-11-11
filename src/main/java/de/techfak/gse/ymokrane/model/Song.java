@@ -23,7 +23,6 @@ public class Song {
 
     private MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
 
-
     /**
      * @param pfad Pfad der mp3s
      */
