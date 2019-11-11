@@ -13,6 +13,8 @@ public class PathParser {
 
     private String pfad;
 
+    private ID3Manager id3Manager = new ID3Manager();
+
 
     private List<File> mp3List = new ArrayList<>();
 
@@ -78,14 +80,11 @@ public class PathParser {
 
         final List<Song> songObjektListe = getObjectList(mp3List);
 
-        System.out.println("Playlist:");
+        System.out.println("Playlist: \n"
+                           + "--------------");
+
         for (final Song song : songObjektListe) {
-            System.out.println("Interpret: " + song.getArtist());
-            System.out.println("Titel: " + song.getTitle());
-            System.out.println("Album: " + song.getAlbum());
-            System.out.println("Genre: " + song.getGenre());
-            System.out.println("Länge: " + song.getDuration());
-            System.out.println("______________________________");
+            id3Manager.showMeta(song);
         }
     }
 

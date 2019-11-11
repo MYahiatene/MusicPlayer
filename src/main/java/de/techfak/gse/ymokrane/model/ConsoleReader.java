@@ -71,6 +71,7 @@ public class ConsoleReader {
                                    + "\"song\": Display ID3Tags of the current song. \n"
                                    + "\"playlist\": Displays complete playlist. \n"
                                    + "\"exit\": Exits the player. ");
+                break;
 
 
         }

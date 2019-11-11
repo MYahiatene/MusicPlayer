@@ -8,12 +8,20 @@ public class ID3Manager {
 
     public void showMeta(final Song song) {
 
+        if (song.getArtist() != null) {
+            System.out.println("Interpret: " + song.getArtist());
+        }
+        if (song.getTitle() != null) {
+        }
+        System.out.println("Titel: " + song.getTitle());
+        if (song.getAlbum() != null) {
+        }
+        System.out.println("Album: " + song.getAlbum());
+        if (song.getGenre() != null) {
 
-        System.out.println(song.getArtist());
-        System.out.println(song.getTitle());
-        System.out.println(song.getAlbum());
-        System.out.println(song.getGenre());
-        System.out.println(song.getDuration());
+            System.out.println("Genre: " + song.getGenre());
+        }
+        System.out.println("Länge: " + song.getDuration());
         System.out.println("_________________________________");
 
 
