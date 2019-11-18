@@ -25,7 +25,7 @@ public class ConsoleReader {
     private ID3Manager id3Manager = new ID3Manager();
 
     /**
-     * @param playlist playlist as paramter from main class.
+     * @param playlist playlist as parameter from main class.
      */
     public ConsoleReader(final List<File> playlist) {
 
@@ -36,7 +36,7 @@ public class ConsoleReader {
 
     /**
      * @param currentPlaylist current playlist with changed order.
-     * @return
+     * @return boolean returns false if "exit" was typed by the user
      */
 
     public boolean read(final List<File> currentPlaylist) {
