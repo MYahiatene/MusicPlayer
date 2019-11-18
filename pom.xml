@@ -32,20 +32,6 @@
             <version>${vlcj.version}</version>
         </dependency>
 
-        <!--Javafx -->
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>13</version>
-        </dependency>
-
-        <!--Javafxml -->
-
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-fxml</artifactId>
-            <version>13</version>
-        </dependency>
 
 
         <!-- JUnit 5 -->
@@ -67,6 +53,22 @@
             <version>${junit-jupiter.version}</version>
             <scope>test</scope>
         </dependency>
+
+
+        <!--Javafx -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>13</version>
+        </dependency>
+
+        <!--Javafxml -->
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>13</version>
+        </dependency>s
     </dependencies>
 
     <build>
