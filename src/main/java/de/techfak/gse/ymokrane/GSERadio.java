@@ -6,8 +6,8 @@ import java.util.List;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import de.techfak.gse.ymokrane.exceptions.InvalidPathException;
@@ -20,27 +20,34 @@ import de.techfak.gse.ymokrane.model.PathParser;
 public final class GSERadio extends Application {
 
 
-   // public static final int STATUS_0 = 0;
+    public static final int STATUS_0 = 0;
+
     private static Scene scene;
 
-   /* private GSERadio() {
+/*    private GSERadio() {
 
 
     }*/
 
+    public static void main(String... args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
-       // final int errorcode100 = 100;
-        //MusicPlayer player = null;
+        final int errorcode100 = 100;
+        MusicPlayer player = null;
 
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("GSERadioView.fxml"));
+        Pane root = fxmlLoader.load();
+        GSERadioController gseRadioController = fxmlLoader.getController();
 
-       // GSERadioController helloWorldController = loadFXML().getController();
-        scene = new Scene(loadFXML("/GSERadioView"), 640, 480);
+        Scene scene = new Scene(root);
+        stage.setTitle("Hello World Example");
         stage.setScene(scene);
         stage.show();
 
-        /*try {
+        try {
             //Erzeugen meines parsers //
             final PathParser parser = new PathParser(getParameters().getRaw().get(0));
 
@@ -74,22 +81,7 @@ public final class GSERadio extends Application {
             }
 
         }
-*/
-    }
 
-    static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
-    }
-
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(GSERadio.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
-    }
-
-    public static void main(String... args) {
-
-
-      launch(args);
     }
 
 }
