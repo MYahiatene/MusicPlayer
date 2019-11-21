@@ -1,4 +1,4 @@
-package de.techfak.gse.ymokrane.fxml;
+package de.techfak.gse.ymokrane.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -11,14 +11,14 @@ import javafx.stage.Stage;
 import de.techfak.gse.ymokrane.GSERadio;
 import de.techfak.gse.ymokrane.Model;
 
-public class ViewController {
+public class GSERadioController {
     public static Scene scene;
 
     List<String> arguments;
 
     private Stage stage;
 
-    public ViewController(Stage stage, List<String> arguments) {
+    public GSERadioController(Stage stage, List<String> arguments) {
         this.stage = stage;
         GSERadio gseRadio = new GSERadio();
         this.arguments = arguments;
@@ -38,8 +38,8 @@ public class ViewController {
 
     public void viewStart() throws IOException {
         if (arguments.contains("--gui") || arguments.contains("-g")) {
-            FXMLLoader fxmlLoader = new FXMLLoader(GSERadio.class.getResource("GSERadioView.fxml"));
-            ViewController.scene = new Scene(loadFXML("/GSERadioView"), 640, 480);
+            FXMLLoader fxmlLoader = new FXMLLoader(GSERadio.class.getResource("GSERadioView"));
+            GSERadioController.scene = new Scene(loadFXML("/GSERadioView"), 640, 480);
             stage.setScene(scene);
             stage.show();
         } else {

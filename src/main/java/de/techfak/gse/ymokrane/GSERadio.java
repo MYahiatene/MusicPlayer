@@ -5,7 +5,7 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import de.techfak.gse.ymokrane.fxml.ViewController;
+import de.techfak.gse.ymokrane.controller.GSERadioController;
 
 
 public final class GSERadio extends Application {
@@ -22,8 +22,8 @@ public final class GSERadio extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        ViewController viewController = new ViewController(stage, getParameters().getRaw());
-        viewController.viewStart();
+        GSERadioController GSERadioController = new GSERadioController(stage, getParameters().getRaw());
+        GSERadioController.viewStart();
 
 
     }

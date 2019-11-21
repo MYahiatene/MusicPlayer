@@ -3,9 +3,9 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
-            xmlns="http://javafx.com/javafx/11.0.1" fx:controller="de.techfak.gse.ymokrane.fxml.GSERadioController">
+            xmlns="http://javafx.com/javafx/11.0.1"
+            fx:controller="de.techfak.gse.ymokrane.controller.GSERadioController">
   <children>
-    <Button layoutX="221.0" layoutY="158.0" mnemonicParsing="false" onAction="#doSomething"
-            text="Salih ist ne Machine"/>
+    <Button layoutX="280.0" layoutY="174.0" mnemonicParsing="false" text="Button"/>
   </children>
 </AnchorPane>

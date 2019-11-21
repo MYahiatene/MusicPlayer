@@ -1,8 +1,8 @@
-package de.techfak.gse.ymokrane.fxml;
+package de.techfak.gse.ymokrane.controller;
 
 import javafx.fxml.FXML;
 
-public class GSERadioController {
+public class ViewController {
 
     @FXML
     void doSomething() {
