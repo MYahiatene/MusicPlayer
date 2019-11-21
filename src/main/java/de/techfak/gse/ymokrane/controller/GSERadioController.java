@@ -1,5 +1,7 @@
 package de.techfak.gse.ymokrane.controller;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.List;
 
@@ -11,17 +13,19 @@ import javafx.stage.Stage;
 import de.techfak.gse.ymokrane.GSERadio;
 import de.techfak.gse.ymokrane.Model;
 
-public class GSERadioController {
+public class GSERadioController implements PropertyChangeListener {
     public static Scene scene;
 
     List<String> arguments;
 
     private Stage stage;
 
-    public GSERadioController(Stage stage, List<String> arguments) {
+    private Model model;
+
+    public GSERadioController(Stage stage, Model model) {
         this.stage = stage;
-        GSERadio gseRadio = new GSERadio();
-        this.arguments = arguments;
+        this.model = model;
+        this.arguments = model.getArgs();
     }
 
     public static Scene getScene() {
@@ -42,8 +46,10 @@ public class GSERadioController {
             GSERadioController.scene = new Scene(loadFXML("/GSERadioView"), 640, 480);
             stage.setScene(scene);
             stage.show();
+            ViewController viewController = new ViewController();
+            viewController.addPropertyChangeListener(this);
+
         } else {
-            Model model = new Model(arguments);
             model.noGui();
 
         }
@@ -59,4 +65,10 @@ public class GSERadioController {
     }
 
 
+    @Override
+    public void propertyChange(final PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("play")) {
+            model.noGui();
+        }
+    }
 }

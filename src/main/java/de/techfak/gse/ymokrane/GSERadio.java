@@ -22,7 +22,8 @@ public final class GSERadio extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        GSERadioController GSERadioController = new GSERadioController(stage, getParameters().getRaw());
+        Model model = new Model(getParameters().getRaw());
+        GSERadioController GSERadioController = new GSERadioController(stage, model);
         GSERadioController.viewStart();
 
 

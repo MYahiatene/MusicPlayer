@@ -15,6 +15,10 @@ public class Model {
 
     private List<String> args;
 
+    public List<String> getArgs() {
+        return args;
+    }
+
     public Model(List<String> args) {
         this.args = args;
     }
