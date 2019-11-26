@@ -3,6 +3,7 @@ package de.techfak.gse.ymokrane;
 import java.io.File;
 import java.util.List;
 
+import de.techfak.gse.ymokrane.Controller.GSERadioController;
 import de.techfak.gse.ymokrane.exceptions.InvalidPathException;
 import de.techfak.gse.ymokrane.exceptions.NoMp3FilesException;
 import de.techfak.gse.ymokrane.model.ConsoleReader;
@@ -24,6 +25,7 @@ public final class GSERadio {
      * @param args Kommandozeilenargumente
      */
     public static void main(final String... args) {
+        GSERadioController.main(args);
         final int errorcode100 = 100;
         MusicPlayer player = null;
         try {
