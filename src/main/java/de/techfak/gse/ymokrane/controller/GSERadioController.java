@@ -1,29 +1,23 @@
 package de.techfak.gse.ymokrane.controller;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-import java.io.IOException;
+import de.techfak.gse.ymokrane.model.Model;
 
 
-public class GSERadioController extends Application {
+public class GSERadioController implements PropertyChangeListener {
 
-    public static void main(final String... args) {
-        launch(args);
+    Model model;
+
+    public GSERadioController(Model model) {
+        this.model = model;
     }
 
-    @Override
-    public void start(final Stage stage) throws IOException {
-        final int width = 800;
-        final int height = 500;
 
-        final Parent root = FXMLLoader.load(getClass().getResource("/GSERadioView.fxml"));
-        stage.setTitle("GUI");
-        stage.setScene(new Scene(root, width, height));
-        stage.show();
+    @Override
+    public void propertyChange(final PropertyChangeEvent evt) {
+
     }
 }
 

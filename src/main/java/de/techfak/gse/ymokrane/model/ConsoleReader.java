@@ -15,7 +15,7 @@ public class ConsoleReader {
 
     /*default*/ List<File> playlist;
 
-    /*default*/ PathParser parser = new PathParser();
+    /*default*/ PathParser parser;
 
 
     /*default*/ int index;
@@ -26,12 +26,14 @@ public class ConsoleReader {
 
     /**
      * @param playlist playlist as parameter from main class.
+     * @param args     args from main class.
      */
-    public ConsoleReader(final List<File> playlist) {
+
+    public ConsoleReader(final List<File> playlist, final List<String> args) {
 
         this.playlist = playlist;
 
-
+        this.parser = new PathParser(args);
     }
 
     /**
@@ -61,16 +63,16 @@ public class ConsoleReader {
                 }
                 break;
             case EXIT:
-                consoleReader.close();
-                return false;
+                System.exit(0);
+                break;
 
 
             default:
 
                 System.out.println("Invalid command! Please use the following commands:  \n"
-                    + "\"song\": Display ID3Tags of the current song. \n"
-                    + "\"playlist\": Displays complete playlist. \n"
-                    + "\"exit\": Exits the player. ");
+                                   + "\"song\": Display ID3Tags of the current song. \n"
+                                   + "\"playlist\": Displays complete playlist. \n"
+                                   + "\"exit\": Exits the player. ");
                 break;
 
 

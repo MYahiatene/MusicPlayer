@@ -1,12 +1,12 @@
 package de.techfak.gse.ymokrane.model;
 
-import de.techfak.gse.ymokrane.exceptions.InvalidPathException;
-import de.techfak.gse.ymokrane.exceptions.NoMp3FilesException;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import de.techfak.gse.ymokrane.exceptions.InvalidPathException;
+import de.techfak.gse.ymokrane.exceptions.NoMp3FilesException;
 
 public class PathParser {
 
@@ -21,13 +21,13 @@ public class PathParser {
     /**
      * @param pfad Pfad des einzulesenden Ordners
      */
-    public PathParser(final String... pfad) {
-        if (pfad.length == 0) {
+    public PathParser(final List<String> pfad) {
+        if (pfad.isEmpty()) {
 
             this.pfad = System.getProperty("user.dir");
         } else {
 
-            this.pfad = pfad[0];
+            this.pfad = pfad.get(0);
         }
     }
 

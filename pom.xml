@@ -81,7 +81,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>de.techfak.gse.ymokrane.GSERadio</mainClass>
+                            <mainClass>de.techfak.gse.ymokrane.GSERadioApplication</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -248,7 +248,7 @@
                     <repositoryLayout>flat</repositoryLayout>
                     <programs>
                         <program>
-                            <mainClass>de.techfak.gse.ymokrane.GSERadio</mainClass>
+                            <mainClass>de.techfak.gse.ymokrane.GSERadioApplication</mainClass>
                             <id>gseRadio</id>
                         </program>
                     </programs>
