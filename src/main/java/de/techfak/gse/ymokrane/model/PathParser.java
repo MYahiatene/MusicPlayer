@@ -1,12 +1,12 @@
 package de.techfak.gse.ymokrane.model;
 
+import de.techfak.gse.ymokrane.exceptions.InvalidPathException;
+import de.techfak.gse.ymokrane.exceptions.NoMp3FilesException;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import de.techfak.gse.ymokrane.exceptions.InvalidPathException;
-import de.techfak.gse.ymokrane.exceptions.NoMp3FilesException;
 
 public class PathParser {
 
@@ -24,7 +24,7 @@ public class PathParser {
     public PathParser(final String... pfad) {
         if (pfad.length == 0) {
 
-            this.pfad = System.getProperty("user.dir") + "/src/main/resources";
+            this.pfad = System.getProperty("user.dir");
         } else {
 
             this.pfad = pfad[0];
@@ -81,7 +81,7 @@ public class PathParser {
         final List<Song> songObjektListe = getObjectList(mp3List);
 
         System.out.println("Playlist: \n"
-                           + "--------------");
+            + "--------------");
 
         for (final Song song : songObjektListe) {
             id3Manager.showMeta(song);

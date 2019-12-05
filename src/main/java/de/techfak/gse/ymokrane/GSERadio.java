@@ -1,14 +1,14 @@
 package de.techfak.gse.ymokrane;
 
-import java.io.File;
-import java.util.List;
-
-import de.techfak.gse.ymokrane.Controller.GSERadioController;
+import de.techfak.gse.ymokrane.controller.GSERadioController;
 import de.techfak.gse.ymokrane.exceptions.InvalidPathException;
 import de.techfak.gse.ymokrane.exceptions.NoMp3FilesException;
 import de.techfak.gse.ymokrane.model.ConsoleReader;
 import de.techfak.gse.ymokrane.model.MusicPlayer;
 import de.techfak.gse.ymokrane.model.PathParser;
+
+import java.io.File;
+import java.util.List;
 
 public final class GSERadio {
 
@@ -48,6 +48,7 @@ public final class GSERadio {
 
             final ConsoleReader consoleReader = new ConsoleReader(player.getPlaylist());
             while (consoleReader.read(player.getPlaylist())) {
+                final int test;
             }
         } catch (InvalidPathException exceptionPath) {
             exceptionPath.printStackTrace();
@@ -57,7 +58,7 @@ public final class GSERadio {
             System.exit(errorcode100);
         } finally {
             if (player != null) {
-                player.mediaPlayer.release();
+                player.getMediaPlayer().release();
                 System.exit(STATUS_0);
             }
 

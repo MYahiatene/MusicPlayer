@@ -1,19 +1,17 @@
 package de.techfak.gse.ymokrane.model;
 
-import java.io.File;
-import java.util.List;
-
 import uk.co.caprica.vlcj.factory.MediaPlayerFactory;
 import uk.co.caprica.vlcj.player.base.MediaPlayer;
 import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter;
 
+import java.io.File;
+import java.util.List;
+
 
 public class MusicPlayer {
 
-
     private MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
-
-    public MediaPlayer mediaPlayer = mediaPlayerFactory.mediaPlayers().newMediaPlayer();
+    private MediaPlayer mediaPlayer = mediaPlayerFactory.mediaPlayers().newMediaPlayer();
 
     private int playlistIndex = 0;
 
@@ -27,6 +25,10 @@ public class MusicPlayer {
 
         this.playlist = playlist;
 
+    }
+
+    public MediaPlayer getMediaPlayer() {
+        return mediaPlayer;
     }
 
     public int getPlaylistIndex() {

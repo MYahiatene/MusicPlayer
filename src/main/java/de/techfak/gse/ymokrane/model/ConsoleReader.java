@@ -68,9 +68,9 @@ public class ConsoleReader {
             default:
 
                 System.out.println("Invalid command! Please use the following commands:  \n"
-                                   + "\"song\": Display ID3Tags of the current song. \n"
-                                   + "\"playlist\": Displays complete playlist. \n"
-                                   + "\"exit\": Exits the player. ");
+                    + "\"song\": Display ID3Tags of the current song. \n"
+                    + "\"playlist\": Displays complete playlist. \n"
+                    + "\"exit\": Exits the player. ");
                 break;
 
 
