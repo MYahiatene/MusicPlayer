@@ -22,7 +22,7 @@ public class PathParser {
      * @param pfad Pfad des einzulesenden Ordners
      */
     public PathParser(final List<String> pfad) {
-        if (pfad.size() == 0) {
+        if (pfad.isEmpty()) {
 
             this.pfad = System.getProperty("user.dir");
         } else {
@@ -58,7 +58,6 @@ public class PathParser {
                 mp3List.add(file);
 
             }
-
 
         }
         if (mp3List.isEmpty()) {

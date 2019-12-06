@@ -15,22 +15,26 @@ public final class GSERadio {
     /**
      * @param args command line arguments.
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         final int error100 = 100;
-
+        final String gui = "--gui";
+        final String gui2 = "-g";
+        String[] newArgs = args;
 
         try {
-            if (args.length != 0 && args[0].equals("--gui") || args[0].equals("-g")) {
-                if (args.length >= 2) {
-                    args = List.of(args).subList(1, args.length).toArray(new String[0]);
-                    GSERadioApplication.main(args);
-                }
-                if (args.length == 1) {
-                    String[] newArgs = new String[0];
+            if (!List.of(newArgs).contains(gui) && !List.of(newArgs).contains(gui2)) {
+                final Model model = new Model(List.of(newArgs));
+                model.consoleModus();
+            } else if (newArgs.length != 0 && newArgs[0].equals(gui) || newArgs[0].equals(gui2)) {
+                if (newArgs.length >= 2) {
+                    newArgs = List.of(newArgs).subList(1, newArgs.length).toArray(new String[0]);
+                    GSERadioApplication.main(newArgs);
+                } else if (newArgs.length == 1) {
+                    newArgs = new String[0];
                     System.out.println(newArgs.length);
                     GSERadioApplication.main(newArgs);
                 } else {
-                    Model model = new Model(List.of(args));
+                    final Model model = new Model(List.of(newArgs));
                     model.consoleModus();
                 }
             }

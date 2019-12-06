@@ -15,7 +15,7 @@ public class Model {
 
     /*default */ List<File> playlist;
 
-    PathParser parser;
+    /*default*/ PathParser parser;
 
     private PropertyChangeSupport support;
 
@@ -58,11 +58,11 @@ public class Model {
         return player;
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener observer) {
+    public void addPropertyChangeListener(final PropertyChangeListener observer) {
         support.addPropertyChangeListener(observer);
     }
 
-    public void removePropertyChangeListener(PropertyChangeListener observer) {
+    public void removePropertyChangeListener(final PropertyChangeListener observer) {
         support.removePropertyChangeListener(observer);
     }
 
@@ -80,7 +80,8 @@ public class Model {
 
         //User Input Verarbeitung //
         while (consoleReader.read(player.getPlaylist())) {
-            final int test;
+            System.out.println("\nBefehlseingabe: \n" +
+                "---------------\n");
         }
 
     }
