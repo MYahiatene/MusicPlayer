@@ -22,7 +22,7 @@ public class PathParser {
      * @param pfad Pfad des einzulesenden Ordners
      */
     public PathParser(final List<String> pfad) {
-        if (pfad.isEmpty()) {
+        if (pfad.size() == 0) {
 
             this.pfad = System.getProperty("user.dir");
         } else {
@@ -59,12 +59,11 @@ public class PathParser {
 
             }
 
-            if (mp3List.isEmpty()) {
 
-                throw new NoMp3FilesException("Keine validen Mp3s im Pfad: " + pfad);
+        }
+        if (mp3List.isEmpty()) {
 
-            }
-
+            throw new NoMp3FilesException("Keine validen Mp3s im Pfad: " + pfad);
 
         }
 

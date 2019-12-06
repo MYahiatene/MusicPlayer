@@ -11,6 +11,6 @@
     <Label layoutX="97.0" layoutY="58.0" text="Current Song:"/>
     <Label layoutX="188.0" layoutY="58.0"/>
     <Button fx:id="button1" layoutX="255.0" layoutY="261.0" mnemonicParsing="false" text="play"
-            onMouseClicked="#playSong"/>
+            />
   </children>
 </AnchorPane>
