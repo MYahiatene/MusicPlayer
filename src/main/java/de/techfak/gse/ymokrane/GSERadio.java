@@ -7,7 +7,6 @@ import de.techfak.gse.ymokrane.exceptions.NoMp3FilesException;
 import de.techfak.gse.ymokrane.model.Model;
 
 public final class GSERadio {
-
     private GSERadio() {
 
     }
@@ -20,7 +19,6 @@ public final class GSERadio {
         final String gui = "--gui";
         final String gui2 = "-g";
         String[] newArgs = args;
-
         try {
             if (!List.of(newArgs).contains(gui) && !List.of(newArgs).contains(gui2)) {
                 final Model model = new Model(List.of(newArgs));

@@ -5,6 +5,7 @@ import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.util.List;
 
+
 import de.techfak.gse.ymokrane.exceptions.InvalidPathException;
 import de.techfak.gse.ymokrane.exceptions.NoMp3FilesException;
 
@@ -80,14 +81,10 @@ public class Model {
 
         //User Input Verarbeitung //
         while (consoleReader.read(player.getPlaylist())) {
-            System.out.println("\nBefehlseingabe: \n" +
-                "---------------\n");
+            System.out.println("\nBefehlseingabe: \n" + "---------------\n");
         }
 
     }
 
-    public void playSong() {
-        support.firePropertyChange("play", true, false);
-    }
 
 }

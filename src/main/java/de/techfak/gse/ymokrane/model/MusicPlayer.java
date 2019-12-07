@@ -4,6 +4,9 @@ import uk.co.caprica.vlcj.factory.MediaPlayerFactory;
 import uk.co.caprica.vlcj.player.base.MediaPlayer;
 import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter;
 
+import javax.swing.*;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.util.List;
 
@@ -16,13 +19,14 @@ public class MusicPlayer {
     private int playlistIndex = 0;
 
     private List<File> playlist;
+    private PropertyChangeSupport support;
 
 
     /**
      * @param playlist Erhält die geshuffelte playlist
      */
     public MusicPlayer(final List<File> playlist) {
-
+        support = new PropertyChangeSupport(this);
         this.playlist = playlist;
 
     }
@@ -33,6 +37,18 @@ public class MusicPlayer {
 
     public int getPlaylistIndex() {
         return playlistIndex;
+    }
+
+    public PropertyChangeSupport getSupport() {
+        return support;
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener observer) {
+        support.addPropertyChangeListener(observer);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener observer) {
+        support.removePropertyChangeListener(observer);
     }
 
 
@@ -56,6 +72,7 @@ public class MusicPlayer {
              */
             @Override
             public void finished(final MediaPlayer mediaPlayer) {
+
                 if (playlistIndex < playlist.size() - 1) {
                     playlistIndex += 1;
                 } else {
@@ -66,8 +83,10 @@ public class MusicPlayer {
                 mediaPlayer.submit(new Runnable() {
                     @Override
                     public void run() {
-
                         mediaPlayer.media().play(playlist.get(0).toString());
+                        support.firePropertyChange("newSong", true, false);
+
+
                     }
                 });
             }
