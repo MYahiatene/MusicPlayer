@@ -1,7 +1,6 @@
 package de.techfak.gse.ymokrane;
 
 import java.io.IOException;
-import java.util.List;
 
 
 import de.techfak.gse.ymokrane.controller.GSERadioController;
@@ -20,26 +19,27 @@ public final class GSERadioApplication extends Application {
 
 
     public static final int STATUS_0 = 0;
-    public static Model model;
+    /*default*/ static final String VIEWFXML = "/GSERadioView.fxml";
 
 
     /**
      * @param args Kommandozeilenargumente
      */
-    public static void main(final String[] args) throws InvalidPathException, NoMp3FilesException {
-        model = new Model(List.of(args));
-        GSERadioController gseRadioController = new GSERadioController();
+    public static void main(final String[] args) {
         launch(args);
 
     }
 
 
     @Override
-    public void start(final Stage stage) throws IOException {
+    public void start(final Stage stage) throws IOException, InvalidPathException, NoMp3FilesException {
         final int width = 800;
         final int height = 500;
-        final FXMLLoader loader = new FXMLLoader(getClass().getResource("/GSERadioView.fxml"));
-        final Parent root = FXMLLoader.load(getClass().getResource("/GSERadioView.fxml"));
+        final Model model = new Model(getParameters().getRaw());
+        final GSERadioController gseRadioController = new GSERadioController(model);
+        final FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEWFXML));
+        loader.setController(gseRadioController);
+        final Parent root = loader.load();
         stage.setTitle("GUI");
         stage.setScene(new Scene(root, width, height));
         stage.show();

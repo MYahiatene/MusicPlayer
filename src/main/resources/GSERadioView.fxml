@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.techfak.gse.ymokrane.controller.GSERadioController">
+<AnchorPane prefHeight="400.0" prefWidth="630.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <Label layoutX="97.0" layoutY="58.0" text="Current Song:" />
     <Button fx:id="button1" layoutX="255.0" layoutY="261.0" mnemonicParsing="false" onMouseClicked="#startPlayer" text="Start Player" />
@@ -13,10 +13,15 @@
     <Label layoutX="97.0" layoutY="156.0" text="Album:" />
     <Label layoutX="97.0" layoutY="184.0" text="Genre:" />
       <Label fx:id="label1" layoutX="188.0" layoutY="58.0" text="" />
-      <Label layoutX="137.0" layoutY="83.0" text="" fx:id="label2"/>
-      <Label layoutX="137.0" layoutY="106.0" text="" fx:id="label3"/>
-      <Label layoutX="158.0" layoutY="129.0" text="" fx:id="label4"/>
-      <Label layoutX="144.0" layoutY="156.0" text="" fx:id="label5"/>
-      <Label layoutX="140.0" layoutY="184.0" text="" fx:id="label6"/>
+      <Label fx:id="label2" layoutX="137.0" layoutY="83.0" text="" />
+      <Label fx:id="label3" layoutX="137.0" layoutY="106.0" text="" />
+      <Label fx:id="label4" layoutX="158.0" layoutY="129.0" text="" />
+      <Label fx:id="label5" layoutX="144.0" layoutY="156.0" text="" />
+      <Label fx:id="label6" layoutX="140.0" layoutY="184.0" text="" />
+      <TableView fx:id="tableView" layoutX="394.0" prefHeight="400.0" prefWidth="205.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="C1" />
+        </columns>
+      </TableView>
   </children>
 </AnchorPane>
