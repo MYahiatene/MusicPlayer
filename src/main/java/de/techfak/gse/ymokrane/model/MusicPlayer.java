@@ -16,14 +16,21 @@ import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter;
 public class MusicPlayer {
 
     /*default*/ Song newSong;
+
     private MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
+
     private MediaPlayer mediaPlayer = mediaPlayerFactory.mediaPlayers().newMediaPlayer();
 
     private int playlistIndex = 0;
 
+    private List<Song> songList;
+
     private List<File> playlist;
+
     private PropertyChangeSupport support;
+
     private PathParser parser;
+
 
 
     /**
@@ -32,7 +39,9 @@ public class MusicPlayer {
     public MusicPlayer(final List<File> playlist) {
         support = new PropertyChangeSupport(this);
         this.playlist = playlist;
+
         this.parser = new PathParser(convertFiletoPlaylist());
+        this.songList = parser.getObjectList(playlist);
     }
 
     /*default*/ List<String> convertFiletoPlaylist() {
@@ -63,9 +72,15 @@ public class MusicPlayer {
         support.removePropertyChangeListener(observer);
     }
 
-
+    public List<Song> getSongList() {
+        return songList;
+    }
     public Song getNewSong() {
         return newSong;
+    }
+
+    public void setSongList(final List<Song> songList) {
+        this.songList = songList;
     }
 
     /**
@@ -96,6 +111,7 @@ public class MusicPlayer {
                 }
                 playlist.add(playlist.get(0));
                 playlist.remove(0);
+                songList = parser.getObjectList(playlist);
                 newSong = parser.getObjectList(playlist).get(0);
 
 
@@ -108,6 +124,7 @@ public class MusicPlayer {
                             public void run() {
                                 support.firePropertyChange("newSong", true, false);
                                 support.firePropertyChange("newPlaylist", true, false);
+                                support.firePropertyChange("resetVote", true, false);
 
                             }
                         });
@@ -119,6 +136,10 @@ public class MusicPlayer {
         });
 
 
+    }
+
+    public void setPlaylist(final List<File> playlist) {
+        this.playlist = playlist;
     }
 
     public List<File> getPlaylist() {

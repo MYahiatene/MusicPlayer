@@ -13,7 +13,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import de.techfak.gse.ymokrane.model.Model;
-import de.techfak.gse.ymokrane.model.PathParser;
 import de.techfak.gse.ymokrane.model.Song;
 
 
@@ -76,7 +75,7 @@ public class GSERadioController implements PropertyChangeListener {
     public GSERadioController(final Model model) {
         this.model = model;
         model.getPlayer().addPropertyChangeListener(this);
-        this.playlist = model.getParser().getMp3List();
+        this.playlist = model.getPlayer().getPlaylist();
         this.songList = model.getParser().getObjectList(playlist);
     }
 
@@ -91,14 +90,17 @@ public class GSERadioController implements PropertyChangeListener {
             updateTableView();
 
         }
+        if (evt.getPropertyName().equals("resetVote")) {
+            // resetVote();
+
+        }
     }
 
     @FXML
         /*default*/ void updateTableView() {
-        this.playlist = model.getParser().getMp3List();
-        this.songList = model.getParser().getObjectList(playlist);
         data.clear();
-        data.addAll(songList);
+        List<File> playlist2 = model.getPlayer().getPlaylist();
+        data.addAll(model.getParser().getObjectList(playlist2));
         tableView.setItems(data);
 
     }
@@ -118,8 +120,6 @@ public class GSERadioController implements PropertyChangeListener {
         /*default*/ void startPlayer() {
 
         Song firstSong;
-        final PathParser parser = model.getParser();
-        this.songList = parser.getObjectList(playlist);
         firstSong = songList.get(0);
         model.getPlayer().playSongs();
         label1.setText(firstSong.getArtist() + MINUS + firstSong.getTitle());
@@ -135,20 +135,17 @@ public class GSERadioController implements PropertyChangeListener {
     }
 
     /*default*/ void fillTableView() {
-        this.songList = model.getParser().getObjectList(playlist);
         column1.setCellValueFactory(new PropertyValueFactory<Song, String>("artist"));
         column2.setCellValueFactory(new PropertyValueFactory<Song, String>("title"));
         column3.setCellValueFactory(new PropertyValueFactory<Song, Integer>("votes"));
-        dropDown.getItems().addAll(fillDrop(playlist));
+        dropDown.getItems().addAll(fillDrop());
         data.clear();
         data.addAll(songList);
         tableView.setItems(data);
 
     }
 
-    /*default*/ List<String> fillDrop(final List<File> playlist) {
-
-        final List<Song> songList = model.getParser().getObjectList(playlist);
+    /*default*/ List<String> fillDrop() {
         final List<String> dropList = new ArrayList<>();
         for (final Song song : songList) {
             dropList.add(song.getArtist() + MINUS + song.getTitle());
@@ -158,16 +155,25 @@ public class GSERadioController implements PropertyChangeListener {
 
     @FXML
         /*default*/ void countVote() {
-
+        this.songList = model.getPlayer().getSongList();
         for (final Song song : songList) {
             if ((song.getArtist() + MINUS + song.getTitle()).equals(dropDown.getSelectionModel().getSelectedItem())) {
                 song.setVotes(song.getVotes() + 1);
             }
-            data.clear();
-            data.addAll(songList);
-            tableView.setItems(data);
+
         }
 
+        data.clear();
+        this.playlist = model.getPlayer().getPlaylist();
+        model.getPlayer().setSongList(songList);
+        data.addAll(model.getPlayer().getSongList());
+        tableView.setItems(data);
+
+    }
+
+    List<Song> resetVote() {
+        this.songList.get(0).setVotes(0);
+        return songList;
     }
 }
 

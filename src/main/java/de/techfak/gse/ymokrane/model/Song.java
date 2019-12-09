@@ -95,4 +95,14 @@ public class Song {
     }
 
 
+    public int compareTo(final Song o2) {
+        if (this.votes < o2.votes) {
+            return 100;
+        }
+        if (this.votes > o2.votes) {
+            return -100;
+        } else {
+            return 0;
+        }
+    }
 }
