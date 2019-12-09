@@ -29,7 +29,6 @@ public final class GSERadio {
                     GSERadioApplication.main(newArgs);
                 } else if (newArgs.length == 1) {
                     newArgs = new String[0];
-                    System.out.println(newArgs.length);
                     GSERadioApplication.main(newArgs);
                 } else {
                     final Model model = new Model(List.of(newArgs));
