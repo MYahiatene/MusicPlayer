@@ -1,19 +1,20 @@
 package de.techfak.gse.ymokrane.controller;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
+import de.techfak.gse.ymokrane.model.Model;
+import de.techfak.gse.ymokrane.model.Song;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import de.techfak.gse.ymokrane.model.Model;
-import de.techfak.gse.ymokrane.model.Song;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 
 public class GSERadioController implements PropertyChangeListener {
@@ -89,9 +90,10 @@ public class GSERadioController implements PropertyChangeListener {
 
             updateTableView();
 
+
         }
         if (evt.getPropertyName().equals("resetVote")) {
-            // resetVote();
+            resetVote();
 
         }
     }
@@ -99,20 +101,14 @@ public class GSERadioController implements PropertyChangeListener {
     @FXML
         /*default*/ void updateTableView() {
         data.clear();
-        List<File> playlist2 = model.getPlayer().getPlaylist();
-        data.addAll(model.getParser().getObjectList(playlist2));
+        data.addAll(songList);
         tableView.setItems(data);
 
     }
 
     /*default*/ void updateMeta() {
         final Song song = model.getPlayer().getNewSong();
-        label1.setText(song.getArtist() + MINUS + song.getTitle());
-        label2.setText(song.getArtist());
-        label3.setText(song.getTitle());
-        label4.setText(Long.toString(song.getDuration()));
-        label5.setText(song.getAlbum());
-        label6.setText(song.getGenre());
+        updateLabel(song);
 
     }
 
@@ -122,17 +118,22 @@ public class GSERadioController implements PropertyChangeListener {
         Song firstSong;
         firstSong = songList.get(0);
         model.getPlayer().playSongs();
-        label1.setText(firstSong.getArtist() + MINUS + firstSong.getTitle());
-        label2.setText(firstSong.getArtist());
-        label3.setText(firstSong.getTitle());
-        label4.setText(Long.toString(firstSong.getDuration()));
-        label5.setText(firstSong.getAlbum());
-        label6.setText(firstSong.getGenre());
+        updateLabel(firstSong);
         button1.setOnMouseClicked(null);
         fillTableView();
 
+    }
+
+    void updateLabel(Song song) {
+        label1.setText(song.getArtist() + MINUS + song.getTitle());
+        label2.setText(song.getArtist());
+        label3.setText(song.getTitle());
+        label4.setText(Long.toString(song.getDuration()));
+        label5.setText(song.getAlbum());
+        label6.setText(song.getGenre());
 
     }
+
 
     /*default*/ void fillTableView() {
         column1.setCellValueFactory(new PropertyValueFactory<Song, String>("artist"));
@@ -155,25 +156,33 @@ public class GSERadioController implements PropertyChangeListener {
 
     @FXML
         /*default*/ void countVote() {
-        this.songList = model.getPlayer().getSongList();
+
         for (final Song song : songList) {
             if ((song.getArtist() + MINUS + song.getTitle()).equals(dropDown.getSelectionModel().getSelectedItem())) {
                 song.setVotes(song.getVotes() + 1);
             }
 
         }
-
+        List<Song> tmpSongList = songList;
         data.clear();
-        this.playlist = model.getPlayer().getPlaylist();
-        model.getPlayer().setSongList(songList);
-        data.addAll(model.getPlayer().getSongList());
+        data.addAll(tmpSongList);
         tableView.setItems(data);
 
+
+        Collections.sort(tmpSongList, new Comparator<Song>() {
+            @Override
+            public int compare(Song song, Song t1) {
+                return song.compareTo(t1);
+            }
+        });
+        this.songList = tmpSongList;
+        updateTableView();
+        //model.getPlayer().setPlaylist();
     }
 
     List<Song> resetVote() {
-        this.songList.get(0).setVotes(0);
-        return songList;
+        model.getParser().getObjectList(model.getPlayer().getPlaylist()).get(0).setVotes(0);
+        return model.getParser().getObjectList(model.getPlayer().getPlaylist());
     }
 }
 
