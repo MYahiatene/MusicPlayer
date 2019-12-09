@@ -21,12 +21,15 @@ public class Song {
 
     /* default */ private final String album;
 
+    /*default*/ private int votes;
+
     private MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
 
     /**
      * @param pfad Pfad der mp3s
      */
     public Song(final String pfad) {
+        this.votes = 0;
 
         this.path = pfad;
 

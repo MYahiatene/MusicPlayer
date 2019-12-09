@@ -19,10 +19,10 @@
     <Label fx:id="label4" layoutX="75.0" layoutY="91.0" text=""/>
     <Label fx:id="label5" layoutX="61.0" layoutY="118.0" text=""/>
     <Label fx:id="label6" layoutX="57.0" layoutY="146.0" text=""/>
-    <TableView fx:id="tableView" layoutX="224.0" prefHeight="400.0" prefWidth="406.0">
+    <TableView fx:id="tableView" layoutX="313.0" prefHeight="400.0" prefWidth="317.0">
         <columns>
-          <TableColumn fx:id="column1" prefWidth="203.0" text="Artist"/>
-          <TableColumn fx:id="column2" prefWidth="202.0" text="Title"/>
+          <TableColumn fx:id="column1" prefWidth="158.0" text="Artist"/>
+          <TableColumn fx:id="column2" prefWidth="247.0" text="Title"/>
         </columns>
       </TableView>
   </children>
