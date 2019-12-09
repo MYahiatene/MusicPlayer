@@ -2,23 +2,23 @@ package de.techfak.gse.ymokrane;
 
 import java.io.IOException;
 
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import de.techfak.gse.ymokrane.controller.GSERadioController;
 import de.techfak.gse.ymokrane.exceptions.InvalidPathException;
 import de.techfak.gse.ymokrane.exceptions.NoMp3FilesException;
 import de.techfak.gse.ymokrane.model.Model;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-
-import javafx.stage.Stage;
 
 
 public final class GSERadioApplication extends Application {
 
 
     public static final int STATUS_0 = 0;
+
     /*default*/ static final String VIEWFXML = "/GSERadioView.fxml";
 
 
@@ -43,5 +43,7 @@ public final class GSERadioApplication extends Application {
         stage.setTitle("GUI");
         stage.setScene(new Scene(root, width, height));
         stage.show();
+        stage.setOnCloseRequest(e -> model.getPlayer().getMediaPlayer().release());
+
     }
 }
