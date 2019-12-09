@@ -25,6 +25,7 @@ public class Song {
 
     private MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
 
+
     /**
      * @param pfad Pfad der mp3s
      */
@@ -58,6 +59,10 @@ public class Song {
         this.duration = info.duration();
 
 
+    }
+
+    public void setVotes(final Integer votes) {
+        this.votes = votes;
     }
 
     public int getVotes() {

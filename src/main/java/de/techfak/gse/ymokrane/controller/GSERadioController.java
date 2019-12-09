@@ -3,19 +3,15 @@ package de.techfak.gse.ymokrane.controller;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import de.techfak.gse.ymokrane.exceptions.InvalidPathException;
-import de.techfak.gse.ymokrane.exceptions.NoMp3FilesException;
 import de.techfak.gse.ymokrane.model.Model;
 import de.techfak.gse.ymokrane.model.PathParser;
 import de.techfak.gse.ymokrane.model.Song;
@@ -25,6 +21,12 @@ public class GSERadioController implements PropertyChangeListener {
     /*default*/ static final int ERROR100 = 100;
 
     /*default*/ static final String MINUS = " - ";
+
+    @FXML
+    /*default*/ Button voteButton;
+
+    @FXML
+    /*default*/ ComboBox<String> dropDown;
 
     @FXML
     /*default*/ TableView<Song> tableView;
@@ -66,6 +68,8 @@ public class GSERadioController implements PropertyChangeListener {
 
     private List<File> playlist;
 
+    private List<Song> songList;
+
     /**
      * @param model hands over model to constructor.
      */
@@ -73,6 +77,7 @@ public class GSERadioController implements PropertyChangeListener {
         this.model = model;
         model.getPlayer().addPropertyChangeListener(this);
         this.playlist = model.getParser().getMp3List();
+        this.songList = model.getParser().getObjectList(playlist);
     }
 
 
@@ -91,7 +96,7 @@ public class GSERadioController implements PropertyChangeListener {
     @FXML
         /*default*/ void updateTableView() {
         this.playlist = model.getParser().getMp3List();
-        final List<Song> songList = model.getParser().getObjectList(playlist);
+        this.songList = model.getParser().getObjectList(playlist);
         data.clear();
         data.addAll(songList);
         tableView.setItems(data);
@@ -110,13 +115,11 @@ public class GSERadioController implements PropertyChangeListener {
     }
 
     @FXML
-        /*default*/ void startPlayer() throws InvalidPathException, NoMp3FilesException {
+        /*default*/ void startPlayer() {
 
-
-        List<Song> songList;
         Song firstSong;
         final PathParser parser = model.getParser();
-        songList = parser.getObjectList(playlist);
+        this.songList = parser.getObjectList(playlist);
         firstSong = songList.get(0);
         model.getPlayer().playSongs();
         label1.setText(firstSong.getArtist() + MINUS + firstSong.getTitle());
@@ -132,16 +135,39 @@ public class GSERadioController implements PropertyChangeListener {
     }
 
     /*default*/ void fillTableView() {
-        final List<Song> songList = model.getParser().getObjectList(playlist);
+        this.songList = model.getParser().getObjectList(playlist);
         column1.setCellValueFactory(new PropertyValueFactory<Song, String>("artist"));
         column2.setCellValueFactory(new PropertyValueFactory<Song, String>("title"));
         column3.setCellValueFactory(new PropertyValueFactory<Song, Integer>("votes"));
+        dropDown.getItems().addAll(fillDrop(playlist));
         data.clear();
         data.addAll(songList);
         tableView.setItems(data);
 
     }
 
+    /*default*/ List<String> fillDrop(final List<File> playlist) {
 
+        final List<Song> songList = model.getParser().getObjectList(playlist);
+        final List<String> dropList = new ArrayList<>();
+        for (final Song song : songList) {
+            dropList.add(song.getArtist() + MINUS + song.getTitle());
+        }
+        return dropList;
+    }
+
+    @FXML
+        /*default*/ void countVote() {
+
+        for (final Song song : songList) {
+            if ((song.getArtist() + MINUS + song.getTitle()).equals(dropDown.getSelectionModel().getSelectedItem())) {
+                song.setVotes(song.getVotes() + 1);
+            }
+            data.clear();
+            data.addAll(songList);
+            tableView.setItems(data);
+        }
+
+    }
 }
 
