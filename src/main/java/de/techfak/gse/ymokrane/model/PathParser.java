@@ -31,6 +31,10 @@ public class PathParser {
         }
     }
 
+    public List<File> getMp3List() {
+        return mp3List;
+    }
+
     public String getPfad() {
 
 
@@ -79,7 +83,7 @@ public class PathParser {
         final List<Song> songObjektListe = getObjectList(mp3List);
 
         System.out.println("Playlist: \n"
-            + "--------------");
+                           + "--------------");
 
         for (final Song song : songObjektListe) {
             id3Manager.showMeta(song);

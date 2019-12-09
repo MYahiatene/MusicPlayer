@@ -5,7 +5,6 @@ import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.util.List;
 
-
 import de.techfak.gse.ymokrane.exceptions.InvalidPathException;
 import de.techfak.gse.ymokrane.exceptions.NoMp3FilesException;
 
@@ -18,7 +17,9 @@ public class Model {
 
     /*default*/ PathParser parser;
 
+
     private PropertyChangeSupport support;
+
 
     /**
      * @param newArgs args from main class without first element as list.
@@ -40,6 +41,10 @@ public class Model {
         this.player = new MusicPlayer(playlist);
         this.consoleReader = new ConsoleReader(player.getPlaylist(), newArgs);
 
+    }
+
+    public List<File> getPlaylist() {
+        return playlist;
     }
 
     public PropertyChangeSupport getSupport() {

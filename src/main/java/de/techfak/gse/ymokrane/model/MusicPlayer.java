@@ -1,17 +1,16 @@
 package de.techfak.gse.ymokrane.model;
 
-import javafx.application.Platform;
-
-import uk.co.caprica.vlcj.factory.MediaPlayerFactory;
-import uk.co.caprica.vlcj.player.base.MediaPlayer;
-import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter;
-
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import javafx.application.Platform;
+
+import uk.co.caprica.vlcj.factory.MediaPlayerFactory;
+import uk.co.caprica.vlcj.player.base.MediaPlayer;
+import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter;
 
 
 public class MusicPlayer {
@@ -108,6 +107,7 @@ public class MusicPlayer {
                             @Override
                             public void run() {
                                 support.firePropertyChange("newSong", true, false);
+                                support.firePropertyChange("newPlaylist", true, false);
 
                             }
                         });
