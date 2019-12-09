@@ -33,7 +33,7 @@ public final class GSERadioApplication extends Application {
 
     @Override
     public void start(final Stage stage) throws IOException, InvalidPathException, NoMp3FilesException {
-        final int width = 800;
+        final int width = 1024;
         final int height = 500;
         final Model model = new Model(getParameters().getRaw());
         final GSERadioController gseRadioController = new GSERadioController(model);

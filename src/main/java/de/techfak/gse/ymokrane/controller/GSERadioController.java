@@ -36,6 +36,9 @@ public class GSERadioController implements PropertyChangeListener {
     /*default*/ TableColumn<Song, String> column2;
 
     @FXML
+    /*default*/ TableColumn<Song, Integer> column3;
+
+    @FXML
     /*default*/ Button button1;
 
     @FXML
@@ -125,17 +128,20 @@ public class GSERadioController implements PropertyChangeListener {
         button1.setOnMouseClicked(null);
         fillTableView();
 
+
     }
 
     /*default*/ void fillTableView() {
         final List<Song> songList = model.getParser().getObjectList(playlist);
         column1.setCellValueFactory(new PropertyValueFactory<Song, String>("artist"));
         column2.setCellValueFactory(new PropertyValueFactory<Song, String>("title"));
+        column3.setCellValueFactory(new PropertyValueFactory<Song, Integer>("votes"));
         data.clear();
         data.addAll(songList);
         tableView.setItems(data);
 
     }
+
 
 }
 

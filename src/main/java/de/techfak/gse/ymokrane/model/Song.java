@@ -8,6 +8,7 @@ import uk.co.caprica.vlcj.media.MetaData;
 import uk.co.caprica.vlcj.waiter.media.ParsedWaiter;
 
 public class Song {
+    /*default*/ private Integer votes;
 
     /* default */ private final String path;
 
@@ -21,7 +22,6 @@ public class Song {
 
     /* default */ private final String album;
 
-    /*default*/ private int votes;
 
     private MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
 
@@ -59,6 +59,11 @@ public class Song {
 
 
     }
+
+    public int getVotes() {
+        return votes;
+    }
+
 
     public String getArtist() {
         return artist;
