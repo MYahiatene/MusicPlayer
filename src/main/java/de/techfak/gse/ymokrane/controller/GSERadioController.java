@@ -107,7 +107,7 @@ public class GSERadioController implements PropertyChangeListener {
     }
 
     /*default*/ void updateMeta() {
-        final Song song = model.getPlayer().getNewSong();
+        final Song song = model.getParser().getObjectList(model.getPlayer().getPlaylist()).get(0);
         updateLabel(song);
 
     }
@@ -117,14 +117,14 @@ public class GSERadioController implements PropertyChangeListener {
 
         Song firstSong;
         firstSong = songList.get(0);
-        model.getPlayer().playSongs();
+        model.getPlayer().playSongs(playlist);
         updateLabel(firstSong);
         button1.setOnMouseClicked(null);
         fillTableView();
 
     }
 
-    void updateLabel(Song song) {
+    /*default*/ void updateLabel(final Song song) {
         label1.setText(song.getArtist() + MINUS + song.getTitle());
         label2.setText(song.getArtist());
         label3.setText(song.getTitle());
@@ -163,7 +163,7 @@ public class GSERadioController implements PropertyChangeListener {
             }
 
         }
-        List<Song> tmpSongList = songList;
+        final List<Song> tmpSongList = songList;
         data.clear();
         data.addAll(tmpSongList);
         tableView.setItems(data);
@@ -171,16 +171,16 @@ public class GSERadioController implements PropertyChangeListener {
 
         Collections.sort(tmpSongList, new Comparator<Song>() {
             @Override
-            public int compare(Song song, Song t1) {
+            public int compare(final Song song, final Song t1) {
                 return song.compareTo(t1);
             }
         });
         this.songList = tmpSongList;
         updateTableView();
-        //model.getPlayer().setPlaylist();
+        model.getPlayer().setPlaylist(model.getParser().getPlaylistFromSong(tmpSongList));
     }
 
-    List<Song> resetVote() {
+    /*default*/ List<Song> resetVote() {
         model.getParser().getObjectList(model.getPlayer().getPlaylist()).get(0).setVotes(0);
         return model.getParser().getObjectList(model.getPlayer().getPlaylist());
     }

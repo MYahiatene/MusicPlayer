@@ -94,13 +94,19 @@ public class Song {
         return genre;
     }
 
-
+    /**
+     * @param o2 the object you compare to.
+     * @return returns an int according to the comparation in conformity with Comparator.
+     */
     public int compareTo(final Song o2) {
+
         if (this.votes < o2.votes) {
-            return 100;
+            final int lessNo = 100;
+            return lessNo;
         }
         if (this.votes > o2.votes) {
-            return -100;
+            final int greaterNo = -100;
+            return greaterNo;
         } else {
             return 0;
         }

@@ -1,12 +1,12 @@
 package de.techfak.gse.ymokrane.model;
 
+import de.techfak.gse.ymokrane.exceptions.InvalidPathException;
+import de.techfak.gse.ymokrane.exceptions.NoMp3FilesException;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.util.List;
-
-import de.techfak.gse.ymokrane.exceptions.InvalidPathException;
-import de.techfak.gse.ymokrane.exceptions.NoMp3FilesException;
 
 public class Model {
     /*default */ final ConsoleReader consoleReader;
@@ -82,7 +82,7 @@ public class Model {
 
         //Abspielen der mp3s //
 
-        player.playSongs();
+        player.playSongs(playlist);
 
         //User Input Verarbeitung //
         while (consoleReader.read(player.getPlaylist())) {

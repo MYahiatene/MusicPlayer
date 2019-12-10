@@ -23,13 +23,11 @@ public class MusicPlayer {
     private int playlistIndex = 0;
 
     private List<Song> songList;
-
     private List<File> playlist;
 
     private PropertyChangeSupport support;
 
     private PathParser parser;
-
 
 
     /**
@@ -74,6 +72,7 @@ public class MusicPlayer {
     public List<Song> getSongList() {
         return parser.getObjectList(playlist);
     }
+
     public Song getNewSong() {
         return newSong;
     }
@@ -83,9 +82,9 @@ public class MusicPlayer {
     }
 
     /**
-     * Spielt die Songs der Playlist in repeat ab.
+     * @param playlist Die playlist die in repeat abgespielt wird.
      */
-    public void playSongs() {
+    public void playSongs(final List<File> playlist) {
 
 
         mediaPlayer.submit(new Runnable() {
@@ -110,14 +109,15 @@ public class MusicPlayer {
                 }
                 playlist.add(playlist.get(0));
                 playlist.remove(0);
-                songList = parser.getObjectList(playlist);
-                newSong = parser.getObjectList(playlist).get(0);
+                setPlaylist(playlist);
 
 
                 mediaPlayer.submit(new Runnable() {
                     @Override
                     public void run() {
-                        mediaPlayer.media().play(playlist.get(0).toString());
+
+
+                        mediaPlayer.media().play(getPlaylist().get(0).toString());
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {

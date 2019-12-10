@@ -1,12 +1,12 @@
 package de.techfak.gse.ymokrane.model;
 
+import de.techfak.gse.ymokrane.exceptions.InvalidPathException;
+import de.techfak.gse.ymokrane.exceptions.NoMp3FilesException;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import de.techfak.gse.ymokrane.exceptions.InvalidPathException;
-import de.techfak.gse.ymokrane.exceptions.NoMp3FilesException;
 
 public class PathParser {
 
@@ -83,7 +83,7 @@ public class PathParser {
         final List<Song> songObjektListe = getObjectList(mp3List);
 
         System.out.println("Playlist: \n"
-                           + "--------------");
+            + "--------------");
 
         for (final Song song : songObjektListe) {
             id3Manager.showMeta(song);
@@ -104,6 +104,21 @@ public class PathParser {
         }
         return songObjectList;
 
+    }
+
+    /**
+     * @param songList List fo Song objects .
+     * @return List of File objects.
+     */
+    public List<File> getPlaylistFromSong(final List<Song> songList) {
+        final List<File> fileList = new ArrayList<>();
+        for (final Song song : songList
+        ) {
+            final File file = new File(song.getPath());
+            fileList.add(file);
+
+        }
+        return fileList;
     }
 }
 
