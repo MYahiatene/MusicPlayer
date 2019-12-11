@@ -1,7 +1,9 @@
 package de.techfak.gse.ymokrane.model;
 
+
 import java.io.File;
 import java.util.List;
+
 import java.util.Scanner;
 
 
@@ -13,6 +15,8 @@ public class ConsoleReader {
 
     public static final String PLAYLIST = "playlist";
 
+    /*default*/ final Scanner scanner = new Scanner(System.in).useDelimiter("\n");
+
     /*default*/ List<File> playlist;
 
     /*default*/ PathParser parser;
@@ -23,6 +27,10 @@ public class ConsoleReader {
     /*default*/ String currentPath;
 
     private ID3Manager id3Manager = new ID3Manager();
+
+
+
+
 
     /**
      * @param playlist playlist as parameter from main class.
@@ -36,14 +44,17 @@ public class ConsoleReader {
         this.parser = new PathParser(args);
     }
 
+    public Scanner getConsoleReader() {
+        return scanner;
+    }
     /**
      * @param currentPlaylist current playlist with changed order.
      * @return boolean returns false if "exit" was typed by the user
      */
 
     public boolean read(final List<File> currentPlaylist) {
-        final Scanner consoleReader = new Scanner(System.in).useDelimiter("\n");
-        final String input = consoleReader.next();
+
+        final String input = scanner.next();
 
         final List<Song> objectList = parser.getObjectList(playlist);
 
@@ -63,16 +74,15 @@ public class ConsoleReader {
                 }
                 break;
             case EXIT:
-                System.exit(0);
-                break;
+                return false;
 
 
             default:
 
                 System.out.println("Invalid command! Please use the following commands:  \n"
-                                   + "\"song\": Display ID3Tags of the current song. \n"
-                                   + "\"playlist\": Displays complete playlist. \n"
-                                   + "\"exit\": Exits the player. ");
+                    + "\"song\": Display ID3Tags of the current song. \n"
+                    + "\"playlist\": Displays complete playlist. \n"
+                    + "\"exit\": Exits the player. ");
                 break;
 
 

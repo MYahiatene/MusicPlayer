@@ -22,10 +22,7 @@ public class Song {
 
     /* default */ private final String album;
 
-
     private MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
-
-
     /**
      * @param pfad Pfad der mp3s
      */
@@ -60,6 +57,13 @@ public class Song {
 
 
     }
+    public MediaPlayerFactory getMediaPlayerFactory() {
+        return mediaPlayerFactory;
+    }
+
+
+
+
 
     public void setVotes(final Integer votes) {
         this.votes = votes;

@@ -15,7 +15,7 @@ import java.util.List;
 
 
 public class MusicPlayer {
-
+    private static final String NEWPLAYLIST = "newPlaylist";
     /*default*/ Song newSong;
 
     private MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
@@ -26,6 +26,7 @@ public class MusicPlayer {
 
     private List<Song> songList;
     private List<File> playlist;
+    private List<Song> tmplist;
 
     private PropertyChangeSupport support;
 
@@ -41,7 +42,13 @@ public class MusicPlayer {
 
         this.parser = new PathParser(convertFiletoPlaylist());
         this.songList = parser.getObjectList(playlist);
+        this.tmplist = songList;
     }
+
+    public List<Song> getTmplist() {
+        return tmplist;
+    }
+
 
     /*default*/ List<String> convertFiletoPlaylist() {
         final List<String> stringPlaylist = new ArrayList<>();
@@ -63,6 +70,10 @@ public class MusicPlayer {
         return support;
     }
 
+    public MediaPlayerFactory getMediaPlayerFactory() {
+        return mediaPlayerFactory;
+    }
+
     public void addPropertyChangeListener(final PropertyChangeListener observer) {
         support.addPropertyChangeListener(observer);
     }
@@ -75,6 +86,11 @@ public class MusicPlayer {
         return songList;
     }
 
+    public List<File> getPlaylist() {
+        return this.playlist;
+
+    }
+
     public Song getNewSong() {
         return newSong;
     }
@@ -83,6 +99,9 @@ public class MusicPlayer {
         this.songList = songList;
     }
 
+    /**
+     * Spielt die songs in repeat ab.
+     */
     public void playSongs() {
 
 
@@ -90,7 +109,7 @@ public class MusicPlayer {
             @Override
             public void run() {
 
-                mediaPlayer.media().play(playlist.get(0).toString());
+                mediaPlayer.media().play(songList.get(0).getPath());
             }
         });
 
@@ -101,29 +120,23 @@ public class MusicPlayer {
             @Override
             public void finished(final MediaPlayer mediaPlayer) {
 
-                manLists();
+                songList.add(songList.get(0));
+                songList.remove(0);
 
                 mediaPlayer.submit(new Runnable() {
                     @Override
                     public void run() {
 
+                        mediaPlayer.media().play(songList.get(0).getPath());
+                        sort();
+                        songList.get(0).setVotes(0);
 
-                        mediaPlayer.media().play(getPlaylist().get(0).toString());
-                        resetVote();
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
 
-                                /*
-                                //support.firePropertyChange("resetVote", true, false);
-                                if (playlistIndex <songList.size() - 1) {
-                                    playlistIndex += 1;
-                                } else {
-                                    playlistIndex = 0;
-                                }
-                                */
                                 support.firePropertyChange("newSong", true, false);
-                                support.firePropertyChange("newPlaylist", true, false);
+                                support.firePropertyChange(NEWPLAYLIST, true, false);
 
 
                             }
@@ -142,30 +155,34 @@ public class MusicPlayer {
         this.playlist = playlist;
     }
 
-    public List<File> getPlaylist() {
-        return this.playlist;
 
-    }
-
-    /*default*/
-    public void countVote(String dropDown) {
-        final String MINUS = " - ";
+    /**
+     * @param dropDown selected Item from my dropdown menu in my GUI.
+     */
+    public void countVote(final String dropDown) {
+        final String minus = " - ";
         for (final Song song : songList) {
-            String tmp = song.getArtist() + MINUS + song.getTitle();
+            final String tmp = song.getArtist() + minus + song.getTitle();
             if (tmp.equals(dropDown)) {
                 song.setVotes(song.getVotes() + 1);
             }
         }
 
-        Collections.sort(songList, new Comparator<Song>() {
+        support.firePropertyChange(NEWPLAYLIST, true, false);
+        sort();
+
+    }
+
+    /**
+     * sorts my songlist excluding the first Song.
+     */
+    public void sort() {
+        Collections.sort(songList.subList(1, songList.size()), new Comparator<Song>() {
             @Override
             public int compare(final Song song, final Song t1) {
                 return song.compareTo(t1);
             }
         });
-
-        this.playlist = parser.getPlaylistFromSong(songList);
-
 
     }
 
@@ -173,17 +190,6 @@ public class MusicPlayer {
     public void resetVote() {
         songList.get(0).setVotes(0);
 
-    }
-
-    void manLists() {
-        songList.add(songList.get(0));
-        songList.remove(0);
-        playlist.add(playlist.get(0));
-        playlist.remove(0);
-    }
-
-    Song getCurrentSong() {
-        return null;
     }
 
 }

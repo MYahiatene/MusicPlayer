@@ -88,6 +88,9 @@ public class Model {
         while (consoleReader.read(player.getPlaylist())) {
             System.out.println("\nBefehlseingabe: \n" + "---------------\n");
         }
+        consoleReader.getConsoleReader().close();
+        player.getMediaPlayerFactory().release();
+        player.getMediaPlayer().release();
 
     }
 

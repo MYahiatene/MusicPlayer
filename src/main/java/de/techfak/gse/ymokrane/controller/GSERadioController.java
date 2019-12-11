@@ -93,10 +93,7 @@ public class GSERadioController implements PropertyChangeListener {
 
 
         }
-        if (evt.getPropertyName().equals("resetVote")) {
-            resetVote();
 
-        }
     }
 
     @FXML
@@ -124,8 +121,9 @@ public class GSERadioController implements PropertyChangeListener {
 
     }
 
-    void resetVote() {
+    /*default*/ void resetVote() {
         model.getPlayer().resetVote();
+        updateTableView();
     }
 
 
