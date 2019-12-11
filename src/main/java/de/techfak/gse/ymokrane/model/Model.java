@@ -61,7 +61,7 @@ public class Model {
 
 
     public MusicPlayer getPlayer() {
-        return player;
+        return this.player;
     }
 
     public void addPropertyChangeListener(final PropertyChangeListener observer) {
@@ -82,7 +82,7 @@ public class Model {
 
         //Abspielen der mp3s //
 
-        player.playSongs(playlist);
+        player.playSongs();
 
         //User Input Verarbeitung //
         while (consoleReader.read(player.getPlaylist())) {

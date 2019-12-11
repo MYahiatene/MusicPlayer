@@ -9,6 +9,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -70,7 +72,7 @@ public class MusicPlayer {
     }
 
     public List<Song> getSongList() {
-        return parser.getObjectList(playlist);
+        return songList;
     }
 
     public Song getNewSong() {
@@ -81,10 +83,7 @@ public class MusicPlayer {
         this.songList = songList;
     }
 
-    /**
-     * @param playlist Die playlist die in repeat abgespielt wird.
-     */
-    public void playSongs(final List<File> playlist) {
+    public void playSongs() {
 
 
         mediaPlayer.submit(new Runnable() {
@@ -102,15 +101,7 @@ public class MusicPlayer {
             @Override
             public void finished(final MediaPlayer mediaPlayer) {
 
-                if (playlistIndex < playlist.size() - 1) {
-                    playlistIndex += 1;
-                } else {
-                    playlistIndex = 0;
-                }
-                playlist.add(playlist.get(0));
-                playlist.remove(0);
-                setPlaylist(playlist);
-
+                manLists();
 
                 mediaPlayer.submit(new Runnable() {
                     @Override
@@ -118,12 +109,22 @@ public class MusicPlayer {
 
 
                         mediaPlayer.media().play(getPlaylist().get(0).toString());
+                        resetVote();
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
+
+                                /*
+                                //support.firePropertyChange("resetVote", true, false);
+                                if (playlistIndex <songList.size() - 1) {
+                                    playlistIndex += 1;
+                                } else {
+                                    playlistIndex = 0;
+                                }
+                                */
                                 support.firePropertyChange("newSong", true, false);
                                 support.firePropertyChange("newPlaylist", true, false);
-                                support.firePropertyChange("resetVote", true, false);
+
 
                             }
                         });
@@ -142,8 +143,47 @@ public class MusicPlayer {
     }
 
     public List<File> getPlaylist() {
-        return playlist;
+        return this.playlist;
 
+    }
+
+    /*default*/
+    public void countVote(String dropDown) {
+        final String MINUS = " - ";
+        for (final Song song : songList) {
+            String tmp = song.getArtist() + MINUS + song.getTitle();
+            if (tmp.equals(dropDown)) {
+                song.setVotes(song.getVotes() + 1);
+            }
+        }
+
+        Collections.sort(songList, new Comparator<Song>() {
+            @Override
+            public int compare(final Song song, final Song t1) {
+                return song.compareTo(t1);
+            }
+        });
+
+        this.playlist = parser.getPlaylistFromSong(songList);
+
+
+    }
+
+    /*default*/
+    public void resetVote() {
+        songList.get(0).setVotes(0);
+
+    }
+
+    void manLists() {
+        songList.add(songList.get(0));
+        songList.remove(0);
+        playlist.add(playlist.get(0));
+        playlist.remove(0);
+    }
+
+    Song getCurrentSong() {
+        return null;
     }
 
 }
