@@ -16,7 +16,9 @@ import java.util.List;
 
 public class MusicPlayer {
     private static final String NEWPLAYLIST = "newPlaylist";
+    private static final String SERVER = ":sout=#rtp{dst=127.0.0.1,port=9000,mux=ts}";
     /*default*/ Song newSong;
+
 
     private MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
 
@@ -109,7 +111,9 @@ public class MusicPlayer {
             @Override
             public void run() {
 
-                mediaPlayer.media().play(songList.get(0).getPath());
+                mediaPlayer.media().play(songList.get(0).getPath(), SERVER);
+                //mediaPlayer.media().play("rtp://127.0.0.1:9000");
+
             }
         });
 
@@ -127,7 +131,8 @@ public class MusicPlayer {
                     @Override
                     public void run() {
 
-                        mediaPlayer.media().play(songList.get(0).getPath());
+                        mediaPlayer.media().play(songList.get(0).getPath(), SERVER);
+                        // mediaPlayer.media().play("rtp://127.0.0.1:9000");
                         sort();
                         songList.get(0).setVotes(0);
 

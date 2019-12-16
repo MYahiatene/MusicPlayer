@@ -1,11 +1,11 @@
 package de.techfak.gse.ymokrane;
 
+import java.io.IOException;
 import java.util.List;
 
 import de.techfak.gse.ymokrane.exceptions.InvalidPathException;
 import de.techfak.gse.ymokrane.exceptions.NoMp3FilesException;
 import de.techfak.gse.ymokrane.model.Model;
-
 public final class GSERadio {
     private GSERadio() {
 
@@ -14,7 +14,7 @@ public final class GSERadio {
     /**
      * @param args command line arguments.
      */
-    public static void main(final String[] args) {
+    public static void main(final String[] args) throws IOException, InterruptedException {
         final int error100 = 100;
         final String gui = "--gui";
         final String gui2 = "-g";
