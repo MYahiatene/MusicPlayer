@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 
 public class MusicPlayer {
@@ -108,8 +109,9 @@ public class MusicPlayer {
      * @param port
      */
     public void streamSongs(String port) throws WrongPortException {
+        Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
         final String SERVERTEST = ":sout=#rtp{dst=127.0.0.1,port=" + port + ",mux=ts}";
-        if (Integer.parseInt(port) < 1024 || Integer.parseInt(port) > 49151) {
+        if (!pattern.matcher(port).matches() || Integer.parseInt(port) < 1024 || Integer.parseInt(port) > 49151) {
             throw new WrongPortException("Invalid port: " + port);
         }
         mediaPlayer.submit(new Runnable() {
