@@ -1,11 +1,11 @@
 package de.techfak.gse.ymokrane;
 
-import java.io.IOException;
-import java.util.List;
-
 import de.techfak.gse.ymokrane.exceptions.InvalidPathException;
 import de.techfak.gse.ymokrane.exceptions.NoMp3FilesException;
+import de.techfak.gse.ymokrane.exceptions.WrongPortException;
 import de.techfak.gse.ymokrane.model.Model;
+
+import java.util.List;
 public final class GSERadio {
     private GSERadio() {
 
@@ -14,12 +14,19 @@ public final class GSERadio {
     /**
      * @param args command line arguments.
      */
-    public static void main(final String[] args) throws IOException, InterruptedException {
+    public static void main(final String[] args) throws InvalidPathException, NoMp3FilesException {
         final int error100 = 100;
         final String gui = "--gui";
         final String gui2 = "-g";
         String[] newArgs = args;
+
         try {
+            if (args[0].equals("--server") && args[1].contains("--streaming=")) {
+                final Model model = new Model(List.of(newArgs));
+                String port = args[1].substring(11);
+                model.serverMode(List.of(newArgs), port);
+            }
+
             if (!List.of(newArgs).contains(gui) && !List.of(newArgs).contains(gui2)) {
                 final Model model = new Model(List.of(newArgs));
                 model.consoleModus();
@@ -38,6 +45,9 @@ public final class GSERadio {
         } catch (InvalidPathException | NoMp3FilesException e) {
             e.printStackTrace();
             System.exit(error100);
+        } catch (WrongPortException e) {
+            e.printStackTrace();
+            System.exit(102);
         }
 
     }

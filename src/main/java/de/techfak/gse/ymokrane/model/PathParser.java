@@ -26,9 +26,18 @@ public class PathParser {
 
             this.pfad = System.getProperty("user.dir");
         } else {
+            for (String s : pfad
+            ) {
+                if (!(s.equals("-g") || s.equals("--gui") || s.equals("--server") || s.contains("--streaming") || s.equals("--client"))) {
+                    if (s == null) {
+                        this.pfad = System.getProperty("user.dir");
+                    } else
+                        this.pfad = s;
+                }
+            }
 
-            this.pfad = pfad.get(0);
         }
+        this.pfad = System.getProperty("user.dir");
     }
 
     public List<File> getMp3List() {

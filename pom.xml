@@ -52,6 +52,7 @@
 
         </dependency>
 
+
         <!--Javafx -->
 
         <dependency>
@@ -248,7 +249,7 @@
 
                     <configLocation>
 
-                    ${project.basedir}/codecheck/checkstyle.xml
+                        ${project.basedir}/codecheck/checkstyle.xml
 
                     </configLocation>
 
@@ -258,7 +259,7 @@
 
                     <outputFile>
 
-                    ${project.build.directory}/checkstyle/checkstyle-result.xml
+                        ${project.build.directory}/checkstyle/checkstyle-result.xml
 
                     </outputFile>
 
@@ -282,7 +283,7 @@
 
                         <goals>
 
-                        <goal>check</goal>
+                            <goal>check</goal>
 
                         </goals>
 
@@ -308,7 +309,7 @@
 
                     <rulesets>
 
-                    <ruleset>${project.basedir}/codecheck/pmd6-rules.xml</ruleset>
+                        <ruleset>${project.basedir}/codecheck/pmd6-rules.xml</ruleset>
 
                     </rulesets>
 
@@ -346,6 +347,7 @@
 
                 <dependencies>
 
+
                     <dependency>
 
                         <groupId>net.sourceforge.pmd</groupId>
@@ -365,6 +367,7 @@
                         <version>6.14.0</version>
 
                     </dependency>
+
 
                     <dependency>
 
@@ -386,6 +389,7 @@
 
                     </dependency>
 
+
                 </dependencies>
 
             </plugin>
@@ -402,7 +406,7 @@
 
                 <configuration>
 
-                <append>false</append>
+                    <append>false</append>
 
                 </configuration>
 
@@ -414,7 +418,7 @@
 
                         <goals>
 
-                        <goal>prepare-agent</goal>
+                            <goal>prepare-agent</goal>
 
                         </goals>
 
@@ -428,7 +432,7 @@
 
                         <goals>
 
-                        <goal>report</goal>
+                            <goal>report</goal>
 
                         </goals>
 
@@ -498,7 +502,7 @@
 
                         <goals>
 
-                        <goal>assemble</goal>
+                            <goal>assemble</goal>
 
                         </goals>
 
@@ -542,7 +546,7 @@
 
                         <goals>
 
-                        <goal>run</goal>
+                            <goal>run</goal>
 
                         </goals>
 

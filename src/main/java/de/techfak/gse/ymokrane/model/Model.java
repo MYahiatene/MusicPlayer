@@ -2,6 +2,7 @@ package de.techfak.gse.ymokrane.model;
 
 import de.techfak.gse.ymokrane.exceptions.InvalidPathException;
 import de.techfak.gse.ymokrane.exceptions.NoMp3FilesException;
+import de.techfak.gse.ymokrane.exceptions.WrongPortException;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -75,6 +76,12 @@ public class Model {
     /**
      * Starts program in console mode only.
      */
+    public void serverMode(List<String> args, String port) throws WrongPortException {
+
+        player.streamSongs(port);
+
+    }
+
     public void consoleModus() {
 
         parser.showPlaylist();

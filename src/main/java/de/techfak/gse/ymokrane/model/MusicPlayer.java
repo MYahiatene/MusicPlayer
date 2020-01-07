@@ -1,5 +1,6 @@
 package de.techfak.gse.ymokrane.model;
 
+import de.techfak.gse.ymokrane.exceptions.WrongPortException;
 import javafx.application.Platform;
 import uk.co.caprica.vlcj.factory.MediaPlayerFactory;
 import uk.co.caprica.vlcj.player.base.MediaPlayer;
@@ -16,7 +17,7 @@ import java.util.List;
 
 public class MusicPlayer {
     private static final String NEWPLAYLIST = "newPlaylist";
-    private static final String SERVER = ":sout=#rtp{dst=127.0.0.1,port=9000,mux=ts}";
+    private static final String SERVER = ":sout=#rtp{dst=127.0.0.1,port=5235,mux=ts}";
     /*default*/ Song newSong;
 
 
@@ -103,7 +104,62 @@ public class MusicPlayer {
 
     /**
      * Spielt die songs in repeat ab.
+     *
+     * @param port
      */
+    public void streamSongs(String port) throws WrongPortException {
+        final String SERVERTEST = ":sout=#rtp{dst=127.0.0.1,port=" + port + ",mux=ts}";
+        if (Integer.parseInt(port) < 1024 || Integer.parseInt(port) > 49151) {
+            throw new WrongPortException("Invalid port: " + port);
+        }
+        mediaPlayer.submit(new Runnable() {
+            @Override
+            public void run() {
+
+                mediaPlayer.media().play(songList.get(0).getPath(), SERVERTEST);
+
+
+            }
+        });
+
+        mediaPlayer.events().addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
+            /**
+             * @param mediaPlayer
+             */
+            @Override
+            public void finished(final MediaPlayer mediaPlayer) {
+
+                songList.add(songList.get(0));
+                songList.remove(0);
+
+                mediaPlayer.submit(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        mediaPlayer.media().play(songList.get(0).getPath(), SERVERTEST);
+                        sort();
+                        songList.get(0).setVotes(0);
+
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                support.firePropertyChange("newSong", true, false);
+                                support.firePropertyChange(NEWPLAYLIST, true, false);
+
+
+                            }
+                        });
+
+                    }
+                });
+            }
+
+        });
+
+
+    }
+
     public void playSongs() {
 
 
