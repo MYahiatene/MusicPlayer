@@ -23,7 +23,7 @@ public final class GSERadio {
         try {
             if (args[0].equals("--server") && args[1].contains("--streaming=")) {
                 final Model model = new Model(List.of(newArgs));
-                String port = args[1].substring(11);
+                String port = args[1].substring(12);
                 model.serverMode(List.of(newArgs), port);
             }
 
