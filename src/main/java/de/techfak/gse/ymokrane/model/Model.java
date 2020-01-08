@@ -1,13 +1,17 @@
 package de.techfak.gse.ymokrane.model;
 
+import de.techfak.gse.ymokrane.GSERadioApplication;
 import de.techfak.gse.ymokrane.exceptions.InvalidPathException;
 import de.techfak.gse.ymokrane.exceptions.NoMp3FilesException;
 import de.techfak.gse.ymokrane.exceptions.WrongPortException;
+import de.techfak.gse.ymokrane.model.server.WebServer;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Model {
@@ -33,7 +37,7 @@ public class Model {
         final List<File> mp3List = new ArrayList<>();
         for (final String s : newArgs
         ) {
-            if (!s.contains("--streaming=") &&!s.contains("--port")) {
+            if (!s.contains("--streaming=") && !s.contains("--port")) {
                 this.pfad = s;
                 break;
             }
@@ -134,6 +138,72 @@ public class Model {
         player.getMediaPlayerFactory().release();
         player.getMediaPlayer().release();
 
+    }
+
+    public void optionHandler(String... args) throws WrongPortException, IOException, InterruptedException {
+        final int streamingCutter = 12;
+        final String optionerror = "No valid option specified";
+        int index = -1;
+        String port = "";
+        final String[] newargs = Arrays.copyOfRange(args, 1, args.length);
+        if (args.length == 0) {
+            System.out.println(optionerror);
+            return;
+        }
+
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].indexOf("--streaming") >= 0) {
+                index = i;
+                break;
+            }
+        }
+        if (index > 0) {
+            port = args[index].substring(streamingCutter);
+            getPlayer().streamSongs(port);
+        }
+        index = -1;
+
+
+        switch (args[0]) {
+
+            case "--server":
+                for (int j = 0; j < args.length; j++) {
+                    if (index >= 0) {
+                        break;
+                    }
+                    if (args[j].contains("--port=")) {
+                        for (int i = 0; i < args.length; i++) {
+                            if (args[i].indexOf("--port") >= 0) {
+                                index = i;
+                                break;
+                            }
+                        }
+                    }
+
+                }
+                if (index >= 0) {
+                    port = args[index];
+                    String serverPort = port.substring(7);
+                    WebServer server = new WebServer(Integer.parseInt(serverPort));
+                } else {
+                    WebServer server = new WebServer(8080);
+
+                }
+
+                break;
+
+            case "--gui":
+                // if (args[0].equals("--server")) { }
+                GSERadioApplication.main(newargs);
+                break;
+            case "-g":
+                // if (args[0].equals("--server")) { }
+                GSERadioApplication.main(newargs);
+                break;
+            default:
+                System.out.println(optionerror);
+                return;
+        }
     }
 
 
