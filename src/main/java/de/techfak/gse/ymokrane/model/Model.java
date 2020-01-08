@@ -7,6 +7,7 @@ import de.techfak.gse.ymokrane.exceptions.WrongPortException;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Model {
@@ -17,6 +18,7 @@ public class Model {
     /*default */ List<File> playlist;
 
     /*default*/ PathParser parser;
+    private String pfad;
 
 
     private PropertyChangeSupport support;
@@ -27,11 +29,40 @@ public class Model {
      * @throws InvalidPathException Own exception thrown when path is invalid.
      * @throws NoMp3FilesException  Own exception thrown when there are no mp3s in directory.
      */
-    public Model(final List<String> newArgs) throws InvalidPathException, NoMp3FilesException {
+    public Model(final String... newArgs) throws InvalidPathException, NoMp3FilesException {
+        final List<File> mp3List = new ArrayList<>();
+        for (final String s : newArgs
+        ) {
+            if (!s.contains("--streaming=")) {
+                this.pfad = s;
+                break;
+            }
+        }
+        if (this.pfad != null) {
+            final File file = new File(this.pfad);
+            if (!file.isDirectory()) {
+                throw new InvalidPathException("Ungueltiger Pfad: " + pfad);
+            }
+            for (final File f : file.listFiles()) {
 
+                if (!f.getAbsoluteFile().isDirectory() && f.getAbsoluteFile().toString().endsWith(".mp3")) {
+
+                    mp3List.add(file);
+
+                }
+
+            }
+            if (mp3List.isEmpty()) {
+
+                throw new NoMp3FilesException("Keine validen Mp3s im Pfad: " + pfad);
+
+            }
+        } else {
+            this.pfad = System.getProperty("user.dir");
+        }
         support = new PropertyChangeSupport(this);
         //Erzeugen meines parsers //
-        this.parser = new PathParser(newArgs);
+        this.parser = new PathParser(List.of(newArgs));
 
         //Einlesen der mp3s aus dem Ornder und speichern in einer Playlist(geshuffled) //
 
@@ -40,7 +71,7 @@ public class Model {
 
         //erstellt Music Player //
         this.player = new MusicPlayer(playlist);
-        this.consoleReader = new ConsoleReader(player.getPlaylist(), newArgs);
+        this.consoleReader = new ConsoleReader(player.getPlaylist(), List.of(newArgs));
 
     }
 
@@ -74,14 +105,18 @@ public class Model {
     }
 
     /**
-     * Starts program in console mode only.
+     * @param port plays the playlist with the specified port.
+     * @throws WrongPortException throws an Exception when Port is wrong.
      */
-    public void serverMode(List<String> args, String port) throws WrongPortException {
+    public void serverMode(final String port) throws WrongPortException {
 
         player.streamSongs(port);
 
     }
 
+    /**
+     * plays playlist in console mode (deprecated).
+     */
     public void consoleModus() {
 
         parser.showPlaylist();

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class PathParser {
 
-
+    private static final String USERDIR = "user.dir";
     private String pfad;
 
     private ID3Manager id3Manager = new ID3Manager();
@@ -24,20 +24,23 @@ public class PathParser {
     public PathParser(final List<String> pfad) {
         if (pfad.isEmpty()) {
 
-            this.pfad = System.getProperty("user.dir");
+            this.pfad = System.getProperty(USERDIR);
         } else {
-            for (String s : pfad
+            for (final String s : pfad
             ) {
-                if (!(s.equals("-g") || s.equals("--gui") || s.equals("--server") || s.contains("--streaming") || s.equals("--client"))) {
+                if (!(s.equals("-g") || s.equals("--gui") || s.equals("--server")
+                    || s.contains("--streaming") || s.equals("--client"))) {
                     if (s == null) {
-                        this.pfad = System.getProperty("user.dir");
-                    } else
+                        this.pfad = System.getProperty(USERDIR);
+                    } else {
                         this.pfad = s;
+                    }
+
                 }
             }
 
         }
-        this.pfad = System.getProperty("user.dir");
+        this.pfad = System.getProperty(USERDIR);
     }
 
     public List<File> getMp3List() {

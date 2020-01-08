@@ -1,5 +1,7 @@
 package de.techfak.gse.ymokrane.model;
 
+import de.techfak.gse.ymokrane.exceptions.InvalidPathException;
+import de.techfak.gse.ymokrane.exceptions.NoMp3FilesException;
 import de.techfak.gse.ymokrane.exceptions.WrongPortException;
 import javafx.application.Platform;
 import uk.co.caprica.vlcj.factory.MediaPlayerFactory;
@@ -17,12 +19,14 @@ import java.util.regex.Pattern;
 
 
 public class MusicPlayer {
+
+    static final String NEWSONGSTRING = "newSong";
     private static final String NEWPLAYLIST = "newPlaylist";
     private static final String SERVER = ":sout=#rtp{dst=127.0.0.1,port=5235,mux=ts}";
     /*default*/ Song newSong;
 
 
-    private MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
+    private MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory("--aout=alsa");
 
     private MediaPlayer mediaPlayer = mediaPlayerFactory.mediaPlayers().newMediaPlayer();
 
@@ -36,11 +40,10 @@ public class MusicPlayer {
 
     private PathParser parser;
 
-
     /**
      * @param playlist Erhält die geshuffelte playlist
      */
-    public MusicPlayer(final List<File> playlist) {
+    public MusicPlayer(final List<File> playlist) throws InvalidPathException, NoMp3FilesException {
         support = new PropertyChangeSupport(this);
         this.playlist = playlist;
 
@@ -106,19 +109,22 @@ public class MusicPlayer {
     /**
      * Spielt die songs in repeat ab.
      *
-     * @param port
+     * @param port streams the song with the specified port.
      */
-    public void streamSongs(String port) throws WrongPortException {
-        Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
-        final String SERVERTEST = ":sout=#rtp{dst=127.0.0.1,port=" + port + ",mux=ts}";
-        if (!pattern.matcher(port).matches() || Integer.parseInt(port) < 1024 || Integer.parseInt(port) > 49151) {
+    public void streamSongs(final String port) throws WrongPortException {
+        final Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+        final int lowerBoundPort = 1024;
+        final int upperBoundPort = 49151;
+        final boolean patternmatched = pattern.matcher(port).matches();
+        final String server = ":sout=#rtp{dst=127.0.0.1,port=" + port + ",mux=ts}";
+        if (!patternmatched || Integer.parseInt(port) < lowerBoundPort || Integer.parseInt(port) > upperBoundPort) {
             throw new WrongPortException("Invalid port: " + port);
         }
         mediaPlayer.submit(new Runnable() {
             @Override
             public void run() {
 
-                mediaPlayer.media().play(songList.get(0).getPath(), SERVERTEST);
+                mediaPlayer.media().play(songList.get(0).getPath(), server);
 
 
             }
@@ -138,7 +144,7 @@ public class MusicPlayer {
                     @Override
                     public void run() {
 
-                        mediaPlayer.media().play(songList.get(0).getPath(), SERVERTEST);
+                        mediaPlayer.media().play(songList.get(0).getPath(), server);
                         sort();
                         songList.get(0).setVotes(0);
 
@@ -146,7 +152,7 @@ public class MusicPlayer {
                             @Override
                             public void run() {
 
-                                support.firePropertyChange("newSong", true, false);
+                                support.firePropertyChange(NEWSONGSTRING, true, false);
                                 support.firePropertyChange(NEWPLAYLIST, true, false);
 
 
@@ -162,6 +168,10 @@ public class MusicPlayer {
 
     }
 
+    /**
+     * plays songs as client.
+     */
+
     public void playSongs() {
 
 
@@ -169,9 +179,7 @@ public class MusicPlayer {
             @Override
             public void run() {
 
-                mediaPlayer.media().play(songList.get(0).getPath(), SERVER);
-                //mediaPlayer.media().play("rtp://127.0.0.1:9000");
-
+                mediaPlayer.media().play(songList.get(0).getPath());
             }
         });
 
@@ -189,8 +197,8 @@ public class MusicPlayer {
                     @Override
                     public void run() {
 
-                        mediaPlayer.media().play(songList.get(0).getPath(), SERVER);
-                        // mediaPlayer.media().play("rtp://127.0.0.1:9000");
+                        mediaPlayer.media().play(songList.get(0).getPath());
+
                         sort();
                         songList.get(0).setVotes(0);
 
@@ -198,7 +206,7 @@ public class MusicPlayer {
                             @Override
                             public void run() {
 
-                                support.firePropertyChange("newSong", true, false);
+                                support.firePropertyChange(NEWSONGSTRING, true, false);
                                 support.firePropertyChange(NEWPLAYLIST, true, false);
 
 

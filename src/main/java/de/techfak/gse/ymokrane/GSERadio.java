@@ -4,74 +4,70 @@ import de.techfak.gse.ymokrane.exceptions.InvalidPathException;
 import de.techfak.gse.ymokrane.exceptions.NoMp3FilesException;
 import de.techfak.gse.ymokrane.exceptions.WrongPortException;
 import de.techfak.gse.ymokrane.model.Model;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
 
+import java.util.Arrays;
 import java.util.List;
 
 public final class GSERadio {
-    @Option(name = "-g", aliases = "--gui", usage = "starts the app in gui mode")
-    private boolean gui;
-    @Option(name = "--client", usage = "starts the app as client")
-    private boolean client;
-    @Option(name = "--server", usage = "starts the app in server mode")
-    private boolean server;
 
-
-    private GSERadio(String... arguments) {
-        final CmdLineParser parser = new CmdLineParser(this);
-        try {
-            parser.parseArgument(arguments);
-        } catch (CmdLineException e) {
-            e.printStackTrace();
-            System.out.println("Unable to parse command-line options ");
-        }
+    private GSERadio() {
     }
 
     /**
      * @param args command line arguments.
      */
     public static void main(final String[] args) throws InvalidPathException, NoMp3FilesException {
-        GSERadio gseRadio = new GSERadio(args);
+        final int error102 = 102;
+        final int streamingCutter = 12;
+        final String optionerror = "No valid option specified";
+        int index = -1;
+        String port = "";
         final int error100 = 100;
-        final String gui = "--gui";
-        final String gui2 = "-g";
-        String[] newArgs = args;
+        final String[] newargs = Arrays.copyOfRange(args, 1, args.length);
 
         try {
-            if (gseRadio.server) {
-                if (List.of(args).subList(1, args.length).isEmpty()) {
-                    final Model model = new Model(List.of(args).subList(1, args.length));
-                    model.serverMode(List.of(newArgs), "");
-                } else {
-                    final Model model = new Model(List.of(args).subList(1, args.length));
-                    String port = List.of(args).subList(1, args.length).get(0).substring(12);
-                    model.serverMode(List.of(newArgs), port);
-                }
+            if (args.length == 0) {
+                System.out.println(optionerror);
+                return;
             }
+            final Model model = new Model(newargs);
+            switch (args[0]) {
 
-            if (gseRadio.client) {
-                GSERadioApplication.main(List.of(args).subList(1, args.length).toArray(new String[List.of(args).subList(1, args.length).size()]));
+                case "--server":
+                    if (List.of(args).toString().contains("--streaming=")) {
+                        for (int i = 0; i < args.length; i++) {
+                            if (args[i].indexOf("--streaming") >= 0) {
+                                index = i;
+                            }
+                        }
+                        if (index < 0) {
+                            port = "";
+                        }
+                        port = args[index].substring(streamingCutter);
+                    } else {
+                        port = "8080";
+                    }
+                    model.getPlayer().streamSongs(port);
+                    break;
 
-
-            }
-
-            if (gseRadio.gui) {
-                GSERadioApplication.main(List.of(args).subList(1, args.length).toArray(new String[List.of(args).subList(1, args.length).size()]));
-            }
-
-
-            if (!gseRadio.server && !gseRadio.client && !gseRadio.gui) {
-                final Model model = new Model(List.of(args).subList(1, args.length));
-                model.consoleModus();
+                case "--gui":
+                    // if (args[0].equals("--server")) { }
+                    GSERadioApplication.main(newargs);
+                    break;
+                case "-g":
+                    // if (args[0].equals("--server")) { }
+                    GSERadioApplication.main(newargs);
+                    break;
+                default:
+                    System.out.println(optionerror);
+                    return;
             }
         } catch (InvalidPathException | NoMp3FilesException e) {
             e.printStackTrace();
             System.exit(error100);
         } catch (WrongPortException e) {
             e.printStackTrace();
-            System.exit(102);
+            System.exit(error102);
         }
 
 
