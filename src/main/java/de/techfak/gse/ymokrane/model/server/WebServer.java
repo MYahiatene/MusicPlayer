@@ -28,7 +28,7 @@ public class WebServer extends NanoHTTPD {
      */
     @Override
     public Response serve(final IHTTPSession session) {
-
+/*
         final StringBuilder sb = new StringBuilder();
         sb.append("Der Server hat eine HTTP-Anfrage erhalten:\n");
 
@@ -46,8 +46,9 @@ public class WebServer extends NanoHTTPD {
         parameters.forEach((s, strings) -> {
             sb.append(String.format("Parameter: %s\n\t%s", s, String.join(", ", strings)));
         });
-
+*/
         // Den String an den Client zurückgeben
-        return newFixedLengthResponse(Response.Status.OK, MIME_PLAINTEXT, sb.toString());
+        return newFixedLengthResponse(Response.Status.OK, MIME_PLAINTEXT, "GSE Radio\n" + Response.Status.OK.getDescription().toString());
+
     }
 }
