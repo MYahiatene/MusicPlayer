@@ -23,13 +23,12 @@ public final class GSERadio {
         int index = -1;
         String port = "";
         final int error100 = 100;
-        final String[] newargs = Arrays.copyOfRange(args, 1, args.length);
-
         try {
             if (args.length == 0) {
                 System.out.println(optionerror);
                 return;
             }
+            final String[] newargs = Arrays.copyOfRange(args, 1, args.length);
             final Model model = new Model(newargs);
             switch (args[0]) {
 

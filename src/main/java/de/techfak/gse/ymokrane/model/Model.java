@@ -33,7 +33,7 @@ public class Model {
         final List<File> mp3List = new ArrayList<>();
         for (final String s : newArgs
         ) {
-            if (!s.contains("--streaming=")) {
+            if (!s.contains("--streaming=") &&!s.contains("--port")) {
                 this.pfad = s;
                 break;
             }
