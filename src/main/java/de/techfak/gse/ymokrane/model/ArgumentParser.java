@@ -116,7 +116,7 @@ public class ArgumentParser {
                 if (args.length > 1) {
                     throw new InvalidOptionException("Invalid Option");
                 } else {
-                    //GSERadioApplication.main(args);
+                    GSERadioApplication.main(args);
                 }
                 break;
 

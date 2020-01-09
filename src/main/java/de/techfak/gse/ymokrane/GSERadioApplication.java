@@ -47,7 +47,7 @@ public final class GSERadioApplication extends Application {
                 final Parent root;
 
                 root = loader.load();
-                stage.setTitle("GUI");
+                stage.setTitle("CLIENT");
                 stage.setScene(new Scene(root, width, height));
                 stage.show();
             } catch (IOException e) {
