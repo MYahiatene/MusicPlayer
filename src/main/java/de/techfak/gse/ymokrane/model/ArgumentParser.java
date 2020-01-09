@@ -118,9 +118,11 @@ public class ArgumentParser {
                 } else {
                     GSERadioApplication.main(args);
                 }
+
                 break;
 
             default:
+
                 throw new InvalidOptionException("No option specified");
 
 
