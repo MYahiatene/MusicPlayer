@@ -13,7 +13,6 @@ import javafx.stage.Stage;
 import org.kohsuke.args4j.CmdLineException;
 
 import java.io.IOException;
-import java.util.List;
 
 
 public final class GSERadioApplication extends Application {
@@ -38,7 +37,6 @@ public final class GSERadioApplication extends Application {
         final int width = 1024;
         final int height = 500;
         String pfad = "";
-        List<String> test = getParameters().getRaw();
         if (getParameters().getRaw().contains("--client")) {
             try {
                 ClientViewController clientViewController = new ClientViewController();
