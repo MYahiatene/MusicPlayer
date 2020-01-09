@@ -40,8 +40,6 @@ public final class GSERadio {
             e.printStackTrace();
             System.exit(error102);
         } catch (InvalidOptionException e) {
-            server.closeAllConnections();
-            server.stop();
             e.printStackTrace();
             System.exit(error103);
         } catch (PortOccupiedException e) {
