@@ -1,10 +1,9 @@
 package de.techfak.gse.ymokrane.model;
 
 import de.techfak.gse.ymokrane.GSERadioApplication;
-import de.techfak.gse.ymokrane.exceptions.InvalidPathException;
-import de.techfak.gse.ymokrane.exceptions.NoMp3FilesException;
-import de.techfak.gse.ymokrane.exceptions.WrongPortException;
+import de.techfak.gse.ymokrane.exceptions.*;
 import de.techfak.gse.ymokrane.model.server.WebServer;
+import fi.iki.elonen.NanoHTTPD;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -13,9 +12,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Model {
     /*default */ final ConsoleReader consoleReader;
+
 
     /*default */ MusicPlayer player;
 
@@ -23,6 +24,8 @@ public class Model {
 
     /*default*/ PathParser parser;
     private String pfad;
+
+    private WebServer server;
 
 
     private PropertyChangeSupport support;
@@ -33,9 +36,17 @@ public class Model {
      * @throws InvalidPathException Own exception thrown when path is invalid.
      * @throws NoMp3FilesException  Own exception thrown when there are no mp3s in directory.
      */
-    public Model(final String... newArgs) throws InvalidPathException, NoMp3FilesException {
+    public Model(final String... newArgs) throws InvalidPathException, NoMp3FilesException, InvalidOptionException {
         final List<File> mp3List = new ArrayList<>();
-        for (final String s : newArgs
+        final String[] newargs2 = Arrays.copyOfRange(newArgs, 1, newArgs.length);
+        if ((List.of(newArgs).contains("--server") && List.of(newArgs).contains("--client")) ||
+            (List.of(newArgs).contains("--server") && List.of(newArgs).contains("-g")) ||
+            (List.of(newArgs).contains("--server") && List.of(newArgs).contains("--gui")) ||
+            (List.of(newArgs).contains("--client") && List.of(newArgs).contains("--streaming")) ||
+            (List.of(newArgs).contains("--client") && List.of(newArgs).contains("--port"))) {
+            throw new InvalidOptionException("Invalid options specified");
+        }
+        for (final String s : newargs2
         ) {
             if (!s.contains("--streaming=") && !s.contains("--port")) {
                 this.pfad = s;
@@ -66,7 +77,7 @@ public class Model {
         }
         support = new PropertyChangeSupport(this);
         //Erzeugen meines parsers //
-        this.parser = new PathParser(List.of(newArgs));
+        this.parser = new PathParser(List.of(newargs2));
 
         //Einlesen der mp3s aus dem Ornder und speichern in einer Playlist(geshuffled) //
 
@@ -75,7 +86,7 @@ public class Model {
 
         //erstellt Music Player //
         this.player = new MusicPlayer(playlist);
-        this.consoleReader = new ConsoleReader(player.getPlaylist(), List.of(newArgs));
+        this.consoleReader = new ConsoleReader(player.getPlaylist(), List.of(newargs2));
 
     }
 
@@ -93,6 +104,10 @@ public class Model {
 
     public ConsoleReader getConsoleReader() {
         return consoleReader;
+    }
+
+    public WebServer getServer() {
+        return server;
     }
 
 
@@ -140,7 +155,7 @@ public class Model {
 
     }
 
-    public void optionHandler(String... args) throws WrongPortException, IOException, InterruptedException {
+    public void optionHandler(String[] args,WebServer server) throws WrongPortException, PortOccupiedException {
         final int streamingCutter = 12;
         final String optionerror = "No valid option specified";
         int index = -1;
@@ -150,6 +165,7 @@ public class Model {
             System.out.println(optionerror);
             return;
         }
+
 
         for (int i = 0; i < args.length; i++) {
             if (args[i].indexOf("--streaming") >= 0) {
@@ -167,6 +183,7 @@ public class Model {
         switch (args[0]) {
 
             case "--server":
+
                 for (int j = 0; j < args.length; j++) {
                     if (index >= 0) {
                         break;
@@ -181,13 +198,19 @@ public class Model {
                     }
 
                 }
-                if (index >= 0) {
-                    port = args[index];
-                    String serverPort = port.substring(7);
-                    WebServer server = new WebServer(Integer.parseInt(serverPort));
-                } else {
-                    WebServer server = new WebServer(8080);
 
+                try {
+                    if (index >= 0) {
+                        port = args[index];
+                        String serverPort = port.substring(7);
+                         server = new WebServer(Integer.parseInt(serverPort));
+                        this.server=server;
+                    } else {
+                         server = new WebServer(8080);
+                        this.server=server;
+                    }
+                } catch (Exception e) {
+                    throw new PortOccupiedException("Port belegt");
                 }
 
                 break;

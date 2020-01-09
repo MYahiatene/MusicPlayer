@@ -1,9 +1,8 @@
 package de.techfak.gse.ymokrane;
 
-import de.techfak.gse.ymokrane.exceptions.InvalidPathException;
-import de.techfak.gse.ymokrane.exceptions.NoMp3FilesException;
-import de.techfak.gse.ymokrane.exceptions.WrongPortException;
+import de.techfak.gse.ymokrane.exceptions.*;
 import de.techfak.gse.ymokrane.model.Model;
+import de.techfak.gse.ymokrane.model.server.WebServer;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -19,23 +18,41 @@ public final class GSERadio {
      */
     public static void main(final String[] args) throws IOException, InterruptedException {
         final int error100 = 100;
+        final int error101 = 101;
         final int error102 = 102;
-        if (args.length==0){
+        final int error103 = 103;
+        WebServer server=null;
+        if (args.length == 0) {
             System.out.println("No options specified!");
             return;
         }
+
         try {
-            final String[] newargs = Arrays.copyOfRange(args, 1, args.length);
-            final Model model = new Model(newargs);
-            model.optionHandler(args);
+
+            final Model model = new Model(args);
+            model.optionHandler(args,server);
         } catch (InvalidPathException | NoMp3FilesException e) {
             e.printStackTrace();
             System.exit(error100);
         } catch (WrongPortException e) {
+            server.closeAllConnections();
+            server.stop();
             e.printStackTrace();
             System.exit(error102);
+        } catch (InvalidOptionException e) {
+            server.closeAllConnections();
+            server.stop();
+            e.printStackTrace();
+            System.exit(error103);
+        } catch (PortOccupiedException e) {
+            server.closeAllConnections();
+            server.stop();
+            e.printStackTrace();
+            System.exit(error101);
         }
 
-
     }
+
+
 }
+ // TCP SOCKETS NOCH FREIGEBEN UND SERVER RESSOURCEN FREIGEBEN
