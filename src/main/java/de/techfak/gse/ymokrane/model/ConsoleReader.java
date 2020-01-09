@@ -3,7 +3,6 @@ package de.techfak.gse.ymokrane.model;
 
 import java.io.File;
 import java.util.List;
-
 import java.util.Scanner;
 
 
@@ -41,7 +40,7 @@ public class ConsoleReader {
 
         this.playlist = playlist;
 
-        this.parser = new PathParser(args);
+        this.parser = new PathParser("args");
     }
 
     public Scanner getConsoleReader() {

@@ -15,32 +15,21 @@ public class PathParser {
 
     private ID3Manager id3Manager = new ID3Manager();
 
-
     private List<File> mp3List = new ArrayList<>();
 
     /**
      * @param pfad Pfad des einzulesenden Ordners
      */
-    public PathParser(final List<String> pfad) {
+    public PathParser(final String pfad) {
         if (pfad.isEmpty()) {
 
             this.pfad = System.getProperty(USERDIR);
         } else {
-            for (final String s : pfad
-            ) {
-                if (!(s.equals("-g") || s.equals("--gui") || s.equals("--server")
-                    || s.contains("--streaming") || s.equals("--client"))) {
-                    if (s == null) {
-                        this.pfad = System.getProperty(USERDIR);
-                    } else {
-                        this.pfad = s;
-                    }
 
-                }
-            }
+            this.pfad = pfad;
 
         }
-        this.pfad = System.getProperty(USERDIR);
+
     }
 
     public List<File> getMp3List() {
@@ -58,7 +47,7 @@ public class PathParser {
     /**
      * @return return der playlist geshuffled
      */
-    public List<File> getPlaylist() throws InvalidPathException, NoMp3FilesException {
+    public List<File> createPlaylist() throws InvalidPathException, NoMp3FilesException {
 
         final File files = new File(pfad);
 
@@ -132,6 +121,6 @@ public class PathParser {
         }
         return fileList;
     }
+
+
 }
-
-

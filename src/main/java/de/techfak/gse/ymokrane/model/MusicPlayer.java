@@ -47,7 +47,7 @@ public class MusicPlayer {
         support = new PropertyChangeSupport(this);
         this.playlist = playlist;
 
-        this.parser = new PathParser(convertFiletoPlaylist());
+        this.parser = new PathParser("convertFiletoPlaylist");
         this.songList = parser.getObjectList(playlist);
         this.tmplist = songList;
     }
