@@ -24,6 +24,7 @@ public class MusicPlayer {
     private static final String NEWPLAYLIST = "newPlaylist";
     private static final String SERVER = ":sout=#rtp{dst=127.0.0.1,port=5235,mux=ts}";
     /*default*/ Song newSong;
+    private Song currentSong;
 
 
     private MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory("--aout=alsa");
@@ -50,6 +51,10 @@ public class MusicPlayer {
         this.parser = new PathParser("convertFiletoPlaylist");
         this.songList = parser.getObjectList(playlist);
         this.tmplist = songList;
+    }
+
+    public Song getCurrentSong() {
+        return songList.get(0);
     }
 
     public List<Song> getTmplist() {

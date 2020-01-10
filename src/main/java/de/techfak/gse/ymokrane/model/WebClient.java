@@ -43,6 +43,7 @@ public final class WebClient {
             if (response.statusCode() == 200) {
                 support.firePropertyChange("connected", true, false);
             }
+
             System.out.println("HTTP-Status: " + response.statusCode());
             System.out.println("Response Body: " + response.body());
         } catch (IOException | InterruptedException e) {

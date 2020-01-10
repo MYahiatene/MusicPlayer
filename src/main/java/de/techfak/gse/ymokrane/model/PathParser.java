@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class PathParser {
-
+    private int count = 0;
     private static final String USERDIR = "user.dir";
     private String pfad;
 
@@ -99,8 +99,9 @@ public class PathParser {
         final List<Song> songObjectList = new ArrayList<>();
         for (final File file : playlist) {
 
-            final Song song = new Song(file.toString());
+            final Song song = new Song(file.toString(), count);
             songObjectList.add(song);
+            count++;
 
         }
         return songObjectList;

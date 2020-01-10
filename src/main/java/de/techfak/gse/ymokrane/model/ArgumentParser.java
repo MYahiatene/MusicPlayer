@@ -30,10 +30,26 @@ public class ArgumentParser {
     private boolean streaming;
     private String[] args;
 
+    private WebServer webServer;
+    private Model model;
+    private MusicPlayer player;
+    private String pfad = "";
+
+    public MusicPlayer getPlayer() {
+        return player;
+    }
 
     public ArgumentParser() {
 
 
+    }
+
+    public void setModel(Model model) {
+        this.model = model;
+    }
+
+    public WebServer getWebServer() {
+        return webServer;
     }
 
     public void parse(String... args) throws CmdLineException {
@@ -49,7 +65,7 @@ public class ArgumentParser {
 
     public String checkOptions() throws InvalidOptionException, IOException, InterruptedException, InvalidPathException, NoMp3FilesException, WrongPortException, PortOccupiedException {
 
-        String pfad = "";
+
 
         switch (args[0]) {
 
@@ -61,7 +77,7 @@ public class ArgumentParser {
                     }
                 }
                 if (args.length > 1) {
-                    pfad = args[1];
+                    this.pfad = args[1];
                     GSERadioApplication.main(args);
                 }
                 GSERadioApplication.main(args);
@@ -82,12 +98,19 @@ public class ArgumentParser {
 
                     if (args.length > 1 && args[1].contains("--streaming")) {
                         streamingPort = arguments.get(0);
-                        pathParser = new PathParser(pfad);
-                        MusicPlayer player = new MusicPlayer(pathParser.createPlaylist());
+                        if (args.length > 2
+                            && !args.toString().contains("--port")) {
+                            this.pfad = args[2];
+                        }
+                        pathParser = new PathParser(this.pfad);
+                        player = new MusicPlayer(pathParser.createPlaylist());
                         player.streamSongs(streamingPort);
                         if (args.length > 2 && args[2].contains("--port")) {
                             port = arguments.get(1);
-                            WebServer server = new WebServer(Integer.parseInt(port));
+                            if (args.length > 3) {
+                                this.pfad = args[3];
+                            }
+                            this.webServer = new WebServer(Integer.parseInt(port), player);
                         }
                         if (args.length > 3 && args[3] == null) {
 
@@ -101,12 +124,13 @@ public class ArgumentParser {
                         if (args.length > 2 && args[2].contains("--streaming")) {
                             streamingPort = arguments.get(1);
                             pathParser = new PathParser(pfad);
-                            MusicPlayer player = new MusicPlayer(pathParser.createPlaylist());
+                            player = new MusicPlayer(pathParser.createPlaylist());
                             player.streamSongs(streamingPort);
+
                         }
-                        WebServer server = new WebServer(Integer.parseInt(port));
+                        this.webServer = new WebServer(Integer.parseInt(port), player);
                     }
-                    WebServer server = new WebServer(Integer.parseInt("8080"));
+                    this.webServer = new WebServer(Integer.parseInt("8080"), player);
                 } catch (Exception e) {
                     throw new PortOccupiedException("Port belegt");
                 }

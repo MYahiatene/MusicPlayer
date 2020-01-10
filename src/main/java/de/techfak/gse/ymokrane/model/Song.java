@@ -1,5 +1,6 @@
 package de.techfak.gse.ymokrane.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import uk.co.caprica.vlcj.factory.MediaPlayerFactory;
 import uk.co.caprica.vlcj.media.InfoApi;
 import uk.co.caprica.vlcj.media.Media;
@@ -8,25 +9,33 @@ import uk.co.caprica.vlcj.media.MetaData;
 import uk.co.caprica.vlcj.waiter.media.ParsedWaiter;
 
 public class Song {
+
+
+    /*default*/ private int id;
     /*default*/ private Integer votes;
 
-    /* default */ private final String path;
+    /* default */ private String path;
 
-    /* default */ private final String genre;
+    /* default */ private String genre;
 
-    /* default */  private final String artist;
+    /* default */  private String artist;
 
-    /* default */ private final String title;
+    /* default */ private String title;
 
-    /* default */ private final long duration;
+    /* default */ private long duration;
 
-    /* default */ private final String album;
+    /* default */ private String album;
 
     private MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
+
+    public Song() {
+    }
+
     /**
      * @param pfad Pfad der mp3s
      */
-    public Song(final String pfad) {
+    public Song(final String pfad, int id) {
+        this.id = id;
         this.votes = 0;
 
         this.path = pfad;
@@ -57,18 +66,26 @@ public class Song {
 
 
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @JsonIgnore
     public MediaPlayerFactory getMediaPlayerFactory() {
         return mediaPlayerFactory;
     }
-
-
-
 
 
     public void setVotes(final Integer votes) {
         this.votes = votes;
     }
 
+    @JsonIgnore
     public int getVotes() {
         return votes;
     }
@@ -82,18 +99,22 @@ public class Song {
         return title;
     }
 
+    @JsonIgnore
     public long getDuration() {
         return duration;
     }
 
+    @JsonIgnore
     public String getAlbum() {
         return album;
     }
 
+    @JsonIgnore
     public String getPath() {
         return path;
     }
 
+    @JsonIgnore
     public String getGenre() {
         return genre;
     }

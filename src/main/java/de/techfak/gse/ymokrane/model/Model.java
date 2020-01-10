@@ -55,6 +55,9 @@ public class Model {
         support.removePropertyChangeListener(observer);
     }
 
+    public void setPlayer(MusicPlayer player) {
+        this.player = player;
+    }
 
     /**
      * @param newArgs args from main class without first element as list.

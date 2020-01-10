@@ -105,7 +105,7 @@ public class GSERadioController implements PropertyChangeListener {
     }
 
     /*default*/ void updateMeta() {
-        final Song tmpsong = new Song(model.getPlayer().getMediaPlayer().media().info().mrl());
+        final Song tmpsong = new Song(model.getPlayer().getMediaPlayer().media().info().mrl(), 0);
         updateLabel(tmpsong);
 
     }

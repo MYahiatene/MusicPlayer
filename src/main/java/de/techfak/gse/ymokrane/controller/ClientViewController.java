@@ -26,7 +26,7 @@ public class ClientViewController implements PropertyChangeListener {
 
     public void connectServer() throws IOException {
 
-        if (ip.getCharacters().length() != 0 && ip.getCharacters().length() != 0) {
+        if (ip.getCharacters().length() != 0 && port.getCharacters().length() != 0) {
             WebClient client = new WebClient();
             client.addPropertyChangeListener(this);
             String[] args = new String[3];

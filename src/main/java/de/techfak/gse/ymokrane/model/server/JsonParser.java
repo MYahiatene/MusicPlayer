@@ -18,16 +18,16 @@ public class JsonParser {
     /**
      * Wir erstellen ein JSON-Objekt (Serialisieren) aus einem Objekt.
      *
-     * @param person ist ein beliebiges Personen-Objekt, welches serialisiert werden soll
+     * @param song ist ein beliebiges Song-Objekt, welches serialisiert werden soll
      * @return unser JSON-Objekt als String
      * @throws JsonException wird geworfen, falls die Serialisierung fehlschlägt
      */
-    public String toJSON(final Song person) throws JsonException {
+    public String toJSON(final Song song) throws JsonException {
         //Wir nutzen einen Try-Catch-Block, da ein Parsing-Error auftreten kann
         try {
-            /*Wir wandeln das Personen-Objekt, in ein JSON-Objekt um, welches durch einen String dargestellt wird
+            /*Wir wandeln das Song-Objekt, in ein JSON-Objekt um, welches durch einen String dargestellt wird
             Dieses nimmt das JSON-Objekt als Parameter entgegen*/
-            return objectMapper.writeValueAsString(person);
+            return objectMapper.writeValueAsString(song);
         } catch (JsonProcessingException e) {
             //Hier müsst ihr eure eigene Exception werfen, die ihr erstellt
             throw new JsonException("Serialisierung fehlgeschlagen");
