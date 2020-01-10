@@ -6,6 +6,8 @@ import de.techfak.gse.ymokrane.model.MusicPlayer;
 import de.techfak.gse.ymokrane.model.Song;
 import fi.iki.elonen.NanoHTTPD;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,7 @@ public class WebServer extends NanoHTTPD {
     private Model model;
     private String pfad;
     private MusicPlayer player;
+    private PropertyChangeSupport support;
 
     /**
      * @param port Der Port, auf den der Server hört
@@ -29,6 +32,11 @@ public class WebServer extends NanoHTTPD {
         start(SOCKET_READ_TIMEOUT, false);
         this.pfad = pfad;
         this.player = player;
+        this.support = new PropertyChangeSupport(this);
+    }
+
+    public void addPropertyChangeListener(final PropertyChangeListener observer) {
+        support.addPropertyChangeListener(observer);
     }
 
     public void setModel(Model model) {
@@ -45,31 +53,13 @@ public class WebServer extends NanoHTTPD {
     @Override
     public Response serve(final IHTTPSession session) {
         JsonParser parser = new JsonParser();
-/*
-        final StringBuilder sb = new StringBuilder();
-        sb.append("Der Server hat eine HTTP-Anfrage erhalten:\n");
 
-        // Die Methode der Anfrage
-        sb.append(String.format("Die Methode der Anfrage war %s \n", session.getMethod()));
-
-        // Die URI der Anfrage
-        sb.append(String.format("Die URI der Anfrage war %s \n", session.getUri()));
-
-        // Die Anzahl der Parameter
-        sb.append(String.format("Die %s  Parameter der Anfrage waren: \n", session.getParameters().size()));
-
-        final Map<String, List<String>> parameters = session.getParameters();
-        // Die einzelnen Parameter ausgeben
-        parameters.forEach((s, strings) -> {
-            sb.append(String.format("Parameter: %s\n\t%s", s, String.join(", ", strings)));
-        });
-*/
-        // Den String an den Client zurückgeben
 
         switch (session.getUri()) {
 
             case "/current-song":
                 try {
+
                     return newFixedLengthResponse(Response.Status.OK, "application/json", parser.toJSON(player.getSongList().get(0)));
 
                 } catch (JsonException e) {
