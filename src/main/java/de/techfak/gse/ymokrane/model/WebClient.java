@@ -14,11 +14,13 @@ import java.util.TimerTask;
 
 
 public final class WebClient {
-
-    private PropertyChangeSupport support;
     private static final int DELAY_MS = 1000;
-    private static final int PERIOD_MS = 2000;
+    private static final int PERIOD_MS = 10000;
+    private PropertyChangeSupport support;
 
+    /**
+     * Webclient simple Webclient implementation.
+     */
     public WebClient() {
 
         this.support = new PropertyChangeSupport(this);
@@ -43,9 +45,8 @@ public final class WebClient {
 
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(args[0] + args[1] + ":" + args[2]))
+                .uri(URI.create(args[0] + args[1] + ":" + args[2] + "/current-song"))
                 .build();
-
 
             Timer timer = new Timer();
             TimerTask printTimeTask = new TimerTask() {
@@ -55,11 +56,13 @@ public final class WebClient {
                         try {
                             JsonParser parser = new JsonParser();
                             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                            Song song = parser.parseJSON(response.body());
+                            String artist = song.getArtist();
+                            String title = song.getTitle();
 
-                            support.firePropertyChange("id", 101, parser.parseJSON(response.body()).getId());
-                            support.firePropertyChange("artist", 101, parser.parseJSON(response.body()).getArtist());
-                            support.firePropertyChange("title", 101, parser.parseJSON(response.body()).getTitle());
                             support.firePropertyChange("connected", true, false);
+                            support.firePropertyChange("get", artist, title);
+
 
                         } catch (Exception e) {
                             support.firePropertyChange("not connected", true, false);
@@ -73,7 +76,7 @@ public final class WebClient {
 
 
         } catch (Exception e) {
-
+            int i = 1 + 1;
         }
 
     }

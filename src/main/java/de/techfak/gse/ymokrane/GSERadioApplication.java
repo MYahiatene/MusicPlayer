@@ -2,7 +2,8 @@ package de.techfak.gse.ymokrane;
 
 import de.techfak.gse.ymokrane.controller.ClientViewController;
 import de.techfak.gse.ymokrane.controller.GSERadioController;
-import de.techfak.gse.ymokrane.exceptions.*;
+import de.techfak.gse.ymokrane.exceptions.InvalidPathException;
+import de.techfak.gse.ymokrane.exceptions.NoMp3FilesException;
 import de.techfak.gse.ymokrane.model.ArgumentParser;
 import de.techfak.gse.ymokrane.model.Model;
 import javafx.application.Application;
@@ -10,7 +11,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.kohsuke.args4j.CmdLineException;
 
 import java.io.IOException;
 
@@ -33,7 +33,7 @@ public final class GSERadioApplication extends Application {
 
 
     @Override
-    public void start(final Stage stage) throws IOException, InvalidPathException, NoMp3FilesException, InvalidOptionException, WrongPortException, PortOccupiedException, CmdLineException, InterruptedException {
+    public void start(final Stage stage) throws IOException, InvalidPathException, NoMp3FilesException {
         final int width = 1024;
         final int height = 500;
         String pfad = "";

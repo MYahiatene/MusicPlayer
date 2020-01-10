@@ -14,6 +14,9 @@ import java.util.Timer;
 
 
 public class ClientViewController implements PropertyChangeListener {
+    private static final int DELAY_MS = 1000;
+    private static final int PERIOD_MS = 2000;
+
     @FXML
     Button button1;
 
@@ -25,21 +28,25 @@ public class ClientViewController implements PropertyChangeListener {
 
     @FXML
     Label connectionStatus;
-    private static final int DELAY_MS = 1000;
-    private static final int PERIOD_MS = 2000;
-    @FXML
-    Label currentSong;
+
     @FXML
     Label serverSatus;
+    @FXML
+    Label currentSong;
+
+
     String[] args;
     WebClient client = new WebClient();
 
+    /**
+     * @throws IOException throes output exception on error
+     */
     public void connectServer() throws IOException {
-
+        final int number3 = 3;
         if (ip.getCharacters().length() != 0 && port.getCharacters().length() != 0) {
 
             client.addPropertyChangeListener(this);
-            this.args = new String[3];
+            this.args = new String[number3];
             args[0] = "http://";
             args[1] = ip.getCharacters().toString();
             args[2] = port.getCharacters().toString();
@@ -68,6 +75,10 @@ public class ClientViewController implements PropertyChangeListener {
 
             if (evt.getPropertyName().equals("not connected")) {
                 connectionStatus.setText("disconnected!");
+            }
+            if (evt.getPropertyName().equals("get")) {
+                currentSong.setText(evt.getOldValue().toString() + "-" + evt.getNewValue());
+
             }
         });
 

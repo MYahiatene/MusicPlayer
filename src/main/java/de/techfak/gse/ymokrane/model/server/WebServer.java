@@ -20,9 +20,11 @@ public class WebServer extends NanoHTTPD {
     private String pfad;
     private MusicPlayer player;
     private PropertyChangeSupport support;
+    private final String applicationJson = "json/application";
 
     /**
-     * @param port Der Port, auf den der Server hört
+     * @param player currently used Music player
+     * @param port   Der Port, auf den der Server hört
      * @throws IOException
      * @throws InterruptedException
      */
@@ -59,8 +61,8 @@ public class WebServer extends NanoHTTPD {
 
             case "/current-song":
                 try {
-
-                    return newFixedLengthResponse(Response.Status.OK, "application/json", parser.toJSON(player.getSongList().get(0)));
+                    return newFixedLengthResponse(Response.Status.OK, applicationJson,
+                        parser.toJSON(player.getSongList().get(0)));
 
                 } catch (JsonException e) {
                     e.printStackTrace();
@@ -77,11 +79,13 @@ public class WebServer extends NanoHTTPD {
                 for (Song s : this.player.getSongList()) {
                     songList.add(s);
                 }
-                return newFixedLengthResponse(Response.Status.OK, "application/json", songList.toString());
+                return newFixedLengthResponse(Response.Status.OK, applicationJson, songList.toString());
+            default:
 
         }
 
-        return newFixedLengthResponse(Response.Status.OK, MIME_PLAINTEXT, "GSE Radio\n" + Response.Status.OK.getDescription());
+        return newFixedLengthResponse(Response.Status.OK, MIME_PLAINTEXT,
+            "GSE Radio\n" + Response.Status.OK.getDescription());
 
     }
 

@@ -1,7 +1,8 @@
 package de.techfak.gse.ymokrane.model;
 
 import de.techfak.gse.ymokrane.GSERadioApplication;
-import de.techfak.gse.ymokrane.exceptions.*;
+import de.techfak.gse.ymokrane.exceptions.InvalidOptionException;
+import de.techfak.gse.ymokrane.exceptions.PortOccupiedException;
 import de.techfak.gse.ymokrane.model.server.WebServer;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
@@ -9,40 +10,48 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArgumentParser {
-    public CmdLineParser parser;
-    @Argument
-    public List<String> arguments = new ArrayList<>();
-    List<File> playlist = new ArrayList<>();
-    @Option(name = "--client", usage = "client mode")
-    private boolean client;
-    @Option(name = "--gui", aliases = "-g", usage = "starts gui")
-    private boolean gui;
-    @Option(name = "--server", usage = "starts REST server")
-    private boolean server;
-    @Option(name = "--port", usage = "specifies the port for REST")
-    private boolean port;
-    @Option(name = "--streaming", usage = "streams music with specified port")
-    private boolean streaming;
-    private String[] args;
+public final class ArgumentParser {
 
+    private final String gui2 = "--gui";
+    private final String g2 = "-g";
+    private final String server2 = "--server";
+    private final String client2 = "--client";
+    private final String port2 = "--port";
+    private final String invalidOption = "Invalid Option";
+    private String[] args;
+    private final String streaming2 = "--streaming";
     private WebServer webServer;
     private Model model;
     private MusicPlayer player;
     private String pfad = "";
-
-    public MusicPlayer getPlayer() {
-        return player;
-    }
+    private final int number3 = 3;
+    @Argument
+    private List<String> arguments = new ArrayList<>();
+    @Option(name = client2, usage = "client mode")
+    private boolean client;
+    @Option(name = gui2, aliases = "-g", usage = "starts gui")
+    private boolean gui;
+    @Option(name = server2, usage = "starts REST server")
+    private boolean server;
+    @Option(name = port2, usage = "specifies the port for REST")
+    private boolean port;
+    @Option(name = streaming2, usage = "streams music with specified port")
+    private boolean streaming;
+    private CmdLineParser parser;
+    private List<File> playlist = new ArrayList<>();
 
     public ArgumentParser() {
 
 
     }
+
+    public MusicPlayer getPlayer() {
+        return player;
+    }
+
 
     public void setModel(Model model) {
         this.model = model;
@@ -52,6 +61,11 @@ public class ArgumentParser {
         return webServer;
     }
 
+
+    /**
+     * @param args cmdline arguments
+     * @throws CmdLineException Exception thrown when parsing error
+     */
     public void parse(String... args) throws CmdLineException {
         CmdLineParser parser = new CmdLineParser(this);
         parser.parseArgument(args);
@@ -63,17 +77,21 @@ public class ArgumentParser {
         }
     }
 
-    public String checkOptions() throws InvalidOptionException, IOException, InterruptedException, InvalidPathException, NoMp3FilesException, WrongPortException, PortOccupiedException {
-
+    /**
+     * @return returns pfad
+     * @throws InvalidOptionException thrown when invalid opion
+     * @throws PortOccupiedException  thrown when port already used
+     */
+    public String checkOptions() throws InvalidOptionException, PortOccupiedException {
 
 
         switch (args[0]) {
 
-            case "--gui":
-            case "-g":
+            case gui2:
+            case g2:
                 for (String s : args) {
-                    if (s.equals("--server") || s.equals("--client") || s.contains("--port")) {
-                        throw new InvalidOptionException("Invalid option");
+                    if (s.equals(server2) || s.equals(client2) || s.contains(port2)) {
+                        throw new InvalidOptionException(invalidOption);
                     }
                 }
                 if (args.length > 1) {
@@ -83,46 +101,46 @@ public class ArgumentParser {
                 GSERadioApplication.main(args);
                 break;
 
-            case "--server":
+            case server2:
                 try {
                     PathParser pathParser;
                     String port = "";
                     String streamingPort = "";
                     for (String s : args
                     ) {
-                        if (s.equals("--gui") || s.equals("-g") || s.equals("--client")) {
-                            throw new InvalidOptionException("Invalid Option");
+                        if (s.equals(gui2) || s.equals(g2) || s.equals(client2)) {
+                            throw new InvalidOptionException(invalidOption);
                         }
                     }
 
 
-                    if (args.length > 1 && args[1].contains("--streaming")) {
+                    if (args.length > 1 && args[1].contains(streaming2)) {
                         streamingPort = arguments.get(0);
                         if (args.length > 2
-                            && !args.toString().contains("--port")) {
+                            && !args.toString().contains(port2)) {
                             this.pfad = args[2];
                         }
                         pathParser = new PathParser(this.pfad);
                         player = new MusicPlayer(pathParser.createPlaylist());
                         player.streamSongs(streamingPort);
-                        if (args.length > 2 && args[2].contains("--port")) {
+                        if (args.length > 2 && args[2].contains(port2)) {
                             port = arguments.get(1);
-                            if (args.length > 3) {
-                                this.pfad = args[3];
+                            if (args.length > number3) {
+                                this.pfad = args[number3];
                             }
                             this.webServer = new WebServer(Integer.parseInt(port), player);
 
                         }
-                        if (args.length > 3 && args[3] == null) {
-
+                        if (args.length > number3 && args[number3] == null) {
+                            int i = 1 + 1;
                         } else {
-                            if (args.length > 3) {
-                                pfad = args[3];
+                            if (args.length > number3) {
+                                pfad = args[number3];
                             }
                         }
-                    } else if (args.length > 1 && args[1].contains("--port")) {
+                    } else if (args.length > 1 && args[1].contains(port2)) {
                         port = arguments.get(0);
-                        if (args.length > 2 && args[2].contains("--streaming")) {
+                        if (args.length > 2 && args[2].contains(streaming2)) {
                             streamingPort = arguments.get(1);
                             pathParser = new PathParser(pfad);
                             player = new MusicPlayer(pathParser.createPlaylist());
@@ -137,9 +155,9 @@ public class ArgumentParser {
                 }
                 break;
 
-            case "--client":
+            case client2:
                 if (args.length > 1) {
-                    throw new InvalidOptionException("Invalid Option");
+                    throw new InvalidOptionException(invalidOption);
                 } else {
                     GSERadioApplication.main(args);
                 }

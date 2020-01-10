@@ -1,6 +1,7 @@
 package de.techfak.gse.ymokrane;
 
-import de.techfak.gse.ymokrane.exceptions.*;
+import de.techfak.gse.ymokrane.exceptions.InvalidOptionException;
+import de.techfak.gse.ymokrane.exceptions.PortOccupiedException;
 import de.techfak.gse.ymokrane.model.ArgumentParser;
 import de.techfak.gse.ymokrane.model.server.WebServer;
 import org.kohsuke.args4j.CmdLineException;
@@ -33,24 +34,23 @@ public final class GSERadio {
             parser.parse(args);
             String pfad = parser.checkOptions();
 
-            // final Model model = new Model(pfad);
             server = parser.getWebServer();
-            // parser.getWebServer().setModel(model);
-        } catch (InvalidPathException | NoMp3FilesException | CmdLineException e) {
+        } catch (CmdLineException e) {
             e.printStackTrace();
-            System.exit(error100);
+
         } catch (InvalidOptionException e) {
-            e.printStackTrace();
-            System.exit(error103);
-        } catch (WrongPortException e) {
             if (server != null) {
                 server.closeAllConnections();
                 server.stop();
             }
-            e.printStackTrace();
-            System.exit(error102);
-        } catch (PortOccupiedException e) {
 
+            e.printStackTrace();
+            System.exit(error103);
+        } catch (PortOccupiedException e) {
+            if (server != null) {
+                server.closeAllConnections();
+                server.stop();
+            }
             e.printStackTrace();
             System.exit(error101);
         }

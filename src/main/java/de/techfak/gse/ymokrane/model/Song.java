@@ -31,31 +31,8 @@ public class Song {
     public Song() {
     }
 
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setDuration(long duration) {
-        this.duration = duration;
-    }
-
-    public void setAlbum(String album) {
-        this.album = album;
-    }
-
     /**
+     * @param id   Id des songs
      * @param pfad Pfad der mp3s
      */
     public Song(final String pfad, int id) {
@@ -90,6 +67,32 @@ public class Song {
 
 
     }
+
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
+
+    public void setAlbum(String album) {
+        this.album = album;
+    }
+
 
     public int getId() {
         return id;

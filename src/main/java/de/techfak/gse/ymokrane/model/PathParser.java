@@ -9,8 +9,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class PathParser {
+    private final String userdir = "user.dir";
     private int count = 0;
-    private static final String USERDIR = "user.dir";
     private String pfad;
 
     private ID3Manager id3Manager = new ID3Manager();
@@ -23,7 +23,7 @@ public class PathParser {
     public PathParser(final String pfad) {
         if (pfad.isEmpty()) {
 
-            this.pfad = System.getProperty(USERDIR);
+            this.pfad = System.getProperty(userdir);
         } else {
 
             this.pfad = pfad;

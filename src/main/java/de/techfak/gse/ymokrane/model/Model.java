@@ -26,6 +26,21 @@ public class Model {
     private boolean running = false;
     private PropertyChangeSupport support;
 
+    /**
+     * @param pfad the song path
+     * @throws InvalidPathException Own exception thrown when path is invalid.
+     * @throws NoMp3FilesException  Own exception thrown when there are no mp3s in directory.
+     */
+    public Model(final String pfad) throws InvalidPathException, NoMp3FilesException {
+        final List<File> mp3List = new ArrayList<>();
+        support = new PropertyChangeSupport(this);
+        //Erzeugen meines parsers //
+        this.pfad = pfad;
+        this.parser = new PathParser(pfad);
+        this.player = new MusicPlayer(parser.createPlaylist());
+
+    }
+
     public List<File> getPlaylist() {
         return playlist;
     }
@@ -57,21 +72,6 @@ public class Model {
 
     public void setPlayer(MusicPlayer player) {
         this.player = player;
-    }
-
-    /**
-     * @param newArgs args from main class without first element as list.
-     * @throws InvalidPathException Own exception thrown when path is invalid.
-     * @throws NoMp3FilesException  Own exception thrown when there are no mp3s in directory.
-     */
-    public Model(final String pfad) throws InvalidPathException, NoMp3FilesException {
-        final List<File> mp3List = new ArrayList<>();
-        support = new PropertyChangeSupport(this);
-        //Erzeugen meines parsers //
-        this.pfad = pfad;
-        this.parser = new PathParser(pfad);
-        this.player = new MusicPlayer(parser.createPlaylist());
-
     }
 
 
