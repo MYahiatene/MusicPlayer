@@ -1,1 +1,14 @@
+# Social Jukebox Application in JavaFX with MVC Pattern and Observer Pattern
+### Prerequisites: Java11 , Maven
 
+### Steps to start the app:
+ 1. build the executable:
+ ```
+ mvn clean package 
+ ```
+ 
+2. start the app with gui(needs to have mp3 files in the root folder):
+
+```
+target/appassembler/bin/gseRadio --gui 
+```
