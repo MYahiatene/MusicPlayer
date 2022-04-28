@@ -25,11 +25,11 @@ target/appassembler/bin/gseRadio --server --streaming=<port number>
 #### Send request to server to get teh following informations:
 current song:
 
-- http://< IP >:< PORT >/current-song
+- http://<IP>:<PORT>/current-song
 
 current playlist:
 
-- http://< IP >:< PORT >/playlist
+- http://<IP>:<PORT>/playlist
 
 ### Starts a client to input ip and port to connect to the streaming server:
 
