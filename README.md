@@ -22,7 +22,7 @@ target/appassembler/bin/gseRadio --gui
 ```
 target/appassembler/bin/gseRadio --server --streaming=<port number> 
 ```
-#### Send request to server to get teh following informations:
+#### Send request to server to get the following informations:
 current song:
 ```
 http://<IP>:<PORT>/current-song
